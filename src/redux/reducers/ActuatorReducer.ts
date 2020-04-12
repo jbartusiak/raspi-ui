@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import initialState from './initialState';
-import { ACTUATE, IActuateAction } from '../actions/actionTypes';
+import { ACTUATE, IActuateAction, IUpdateServicesAction, UPDATE_SERVICES } from '../actions/actionTypes';
 
 export const actuatorReducer = (
     state = initialState.services,
@@ -15,9 +15,17 @@ export const actuatorReducer = (
                 ...service,
                 actuator: {
                     ...service.actuator,
-                    status: status
+                    status
                 }
             }
+        }
+    }
+    else if (action.type === UPDATE_SERVICES){
+        const { services } = action as IUpdateServicesAction;
+
+        return {
+            ...state,
+            ...services.services
         }
     }
     return state;

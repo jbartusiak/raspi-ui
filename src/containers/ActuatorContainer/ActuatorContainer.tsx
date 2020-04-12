@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IApplicationState, ServiceStatus } from '../../redux/reducers/Types';
 import { Actuator } from '../../components/Actuator/Actuator';
@@ -13,17 +13,13 @@ const ActuatorContainer: React.FC<TActuatorProps> = ({selector}: TActuatorProps)
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        if(selectedService.actuator.status===ServiceStatus.UNKNOWN) {
-            console.log('actuating...');
+        if(selectedService.actuator.status === ServiceStatus.UNKNOWN) {
+            console.log(`Fetching status of ${selector}.`)
             dispatch(actuatorActions.actuate(selectedService));
         }
-    }, [selectedService, dispatch]);
+    }, [selectedService, dispatch, selector]);
 
-    const handleClick = (event: MouseEvent) => {
-        console.log(event);
-    }
-
-    return <div onClick={handleClick}><Actuator {...selectedService} /></div>;
+    return <Actuator {...selectedService} />;
 };
 
 export default ActuatorContainer;

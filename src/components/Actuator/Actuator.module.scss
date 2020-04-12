@@ -4,6 +4,7 @@
   flex-direction: row;
   align-items: center;
   padding: 16px 16px;
+  margin: 16px 0;
 }
 
 .ControlsContainer {
@@ -11,4 +12,10 @@
     button {
       margin: 8px 4px;
     }
+}
+
+.ActuatorSubtitle {
+  a{
+    color: #C51A4A;
+  }
 }

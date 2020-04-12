@@ -7,7 +7,7 @@ export enum ServiceStatus {
 export interface IActuator {
     status: ServiceStatus;
     health: string;
-    parseStatus: RegExp;
+    parseStatus: RegExp | string;
 }
 
 export interface IService {
@@ -28,4 +28,7 @@ export interface IApplicationState {
     services: {
         [name: string]: IService
     }
+    configuration: {
+        fetched: boolean;
+    };
 }

@@ -1,6 +1,9 @@
 import { IApplicationState, ServiceStatus } from './Types';
 
 const initialState:IApplicationState = {
+    configuration: {
+        fetched: false
+    },
     location: '/',
     services: {
         'Raspi Backend Service': {
