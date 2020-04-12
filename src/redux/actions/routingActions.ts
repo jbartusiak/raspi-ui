@@ -1,8 +1,8 @@
-import { ACTION_TYPE, IRoutingAction } from './actionTypes';
+import { ROUTING_CHANGED, IRoutingAction } from './actionTypes';
 
 function navigateTo(location: string): IRoutingAction {
     return {
-        type: ACTION_TYPE.ROUTING_CHANGE,
+        type: ROUTING_CHANGED,
         location,
     };
 }

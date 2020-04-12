@@ -1,9 +1,11 @@
 import React from 'react';
-import './App.css';
+import './App.module.scss';
 import 'typeface-roboto';
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {appBar as AppBar} from "./AppBar/AppBar";
 import {Container, Paper} from '@material-ui/core';
+import ActuatorContainer from '../containers/ActuatorContainer/ActuatorContainer';
+import styles from './App.module.scss';
 
 const theme = createMuiTheme({
     palette: {
@@ -25,12 +27,9 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <AppBar/>
-            <Container>
+            <Container className={styles.ApplicationContainer}>
                 <Paper>
-                    <div className="App">
-                        <h2>Hello</h2>
-                        {process.env.NODE_ENV}
-                    </div>
+                    <ActuatorContainer selector="Raspi Backend Service"/>
                 </Paper>
             </Container>
         </ThemeProvider>

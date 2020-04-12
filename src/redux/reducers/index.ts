@@ -1,8 +1,10 @@
-import { combineReducers, Reducer } from 'redux';
-import { routingReducer } from './RoutingReducer';
+import { combineReducers } from 'redux';
+import { actuatorReducer as services } from './ActuatorReducer';
+import { routingReducer as location } from './RoutingReducer';
 
-const rootReducer: Reducer = combineReducers({
-    routingReducer,
+const rootReducer = combineReducers({
+    location,
+    services,
 });
 
 export default rootReducer;

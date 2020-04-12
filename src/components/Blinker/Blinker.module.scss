@@ -1,0 +1,50 @@
+$color-green: #2ecc71;
+$color-red: #f44336;
+$color-yellow: #FDD835;
+
+.Blinker {
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  border-radius: 100%;
+  display: inline-block;
+  transition: all 1s;
+  margin: 0 32px 0 16px;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.green {
+  background-color: $color-green;
+  animation-name: greenBlink;
+}
+.red {
+  background-color: $color-red;
+  animation-name: redBlink;
+}
+.yellow {
+  background-color: $color-yellow;
+  animation-name: yellowBlink;
+}
+
+@keyframes redBlink {
+  40% {
+    background-color: lighten($color-red, 10);
+    box-shadow: 0 0 10px 0 $color-red;
+  }
+}
+
+@keyframes yellowBlink {
+  40% {
+    background-color: saturate($color-yellow, 25);
+    box-shadow: 0 0 10px 0 $color-yellow;
+  }
+}
+
+@keyframes greenBlink {
+  100% {
+    background-color: saturate($color-green, 25);
+    box-shadow: 0 0 10px 0 $color-green;
+  }
+}
