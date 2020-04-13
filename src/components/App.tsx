@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './App.module.scss';
 import 'typeface-roboto';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { appBar as AppBar } from './AppBar/AppBar';
+import { ApplicationBar as AppBar } from './AppBar/AppBar';
 import { Container, Paper } from '@material-ui/core';
 import ActuatorContainer from '../containers/ActuatorContainer/ActuatorContainer';
 import styles from './App.module.scss';

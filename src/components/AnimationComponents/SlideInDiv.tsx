@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { HTMLAttributes, PropsWithChildren } from 'react';
+import React, { HTMLAttributes, PropsWithChildren } from 'react';
 import { motion } from 'framer-motion';
 
 const container = {
@@ -9,7 +8,7 @@ const container = {
         height: 'unset',
         transition: {
             delay: 0.25,
-            when: "beforeChildren",
+            when: 'beforeChildren',
             staggerChildren: 0.5,
             type: 'spring',
             stiffness: 500,
@@ -43,7 +42,7 @@ export const SlideInDiv: React.FC<SlideInDivProps> = (props) => {
                 className={props.childrenClassName}
                 variants={item}
             >
-                { props.children }
+                {props.children}
             </motion.div>
         </motion.div>
     );

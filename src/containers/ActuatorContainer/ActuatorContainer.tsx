@@ -8,13 +8,13 @@ type TActuatorProps = {
     selector: string;
 }
 
-const ActuatorContainer: React.FC<TActuatorProps> = ({selector}: TActuatorProps) => {
-    const selectedService = useSelector(({ services }: IApplicationState)=>services[selector]);
+const ActuatorContainer: React.FC<TActuatorProps> = ({ selector }: TActuatorProps) => {
+    const selectedService = useSelector(({ services }: IApplicationState) => services[selector]);
     const dispatch = useDispatch();
 
-    useEffect(()=>{
-        if(selectedService.actuator.status === ServiceStatus.UNKNOWN) {
-            console.log(`Fetching status of ${selector}.`)
+    useEffect(() => {
+        if (selectedService.actuator.status === ServiceStatus.UNKNOWN) {
+            console.log(`Fetching status of ${selector}.`);
             dispatch(actuatorActions.getServiceStatus(selectedService));
         }
     }, [selectedService, dispatch, selector]);

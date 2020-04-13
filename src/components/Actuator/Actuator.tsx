@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 import styles from './Actuator.module.scss';
 import { IService } from '../../redux/reducers/Types';
 import { Controls } from './Controls';
-import { SlideInDiv } from '../SlideInDiv/SlideInDiv';
+import { SlideInDiv } from '../AnimationComponents/SlideInDiv';
 
 export const Actuator: React.FC<IService> = ({ actuator, name, uri, port }) => {
     const serviceUrl = `http://${uri}:${port}`;
