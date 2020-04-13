@@ -10,6 +10,7 @@ type TActuatorProps = {
 
 const ActuatorContainer: React.FC<TActuatorProps> = ({ selector }: TActuatorProps) => {
     const selectedService = useSelector(({ services }: IApplicationState) => services[selector]);
+    const isApiCallInProgress = useSelector(({ apiCallsInProgress }:IApplicationState)=>apiCallsInProgress>0);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,7 +20,7 @@ const ActuatorContainer: React.FC<TActuatorProps> = ({ selector }: TActuatorProp
         }
     }, [selectedService, dispatch, selector]);
 
-    return <Actuator {...selectedService} />;
+    return <Actuator  {...{ service:selectedService, isApiCallInProgress }} />;
 };
 
 export default ActuatorContainer;
