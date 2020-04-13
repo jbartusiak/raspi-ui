@@ -1,12 +1,12 @@
 import { AnyAction } from 'redux';
 import initialState from './initialState';
-import { ACTUATE, IActuateAction, IUpdateServicesAction, UPDATE_SERVICES } from '../actions/actionTypes';
+import { GET_SERVICE_STATUS_SUCCESSS, IActuateAction, IUpdateServicesAction, GET_SERVICE_CONFIGURATION_SUCCESS } from '../actions/actionTypes';
 
 export const actuatorReducer = (
     state = initialState.services,
     action: AnyAction
 ) => {
-    if(action.type===ACTUATE) {
+    if(action.type===GET_SERVICE_STATUS_SUCCESSS) {
         const { service, status } = action as IActuateAction;
 
         return {
@@ -20,7 +20,7 @@ export const actuatorReducer = (
             }
         }
     }
-    else if (action.type === UPDATE_SERVICES){
+    else if (action.type === GET_SERVICE_CONFIGURATION_SUCCESS){
         const { services } = action as IUpdateServicesAction;
 
         return {

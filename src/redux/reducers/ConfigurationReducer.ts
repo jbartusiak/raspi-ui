@@ -1,12 +1,12 @@
 import initialState from './initialState';
 import { AnyAction } from 'redux';
-import { CONFIGURATION_FETCHED } from '../actions/actionTypes';
+import { GET_CONFIGURATION_SUCCESS } from '../actions/actionTypes';
 
 export const configurationReducer = (
     state = initialState.configuration,
     action: AnyAction
 ) => {
-    if(action.type===CONFIGURATION_FETCHED) {
+    if(action.type===GET_CONFIGURATION_SUCCESS) {
         return {
             ...state,
             fetched: true,

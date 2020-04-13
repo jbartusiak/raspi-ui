@@ -24,11 +24,12 @@ export interface IService {
 }
 
 export interface IApplicationState {
+    apiCallsInProgress: number;
+    configuration: {
+        fetched: boolean;
+    };
     location: string;
     services: {
         [name: string]: IService
     }
-    configuration: {
-        fetched: boolean;
-    };
 }

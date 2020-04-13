@@ -1,3 +1,3 @@
-import { CONFIGURATION_FETCHED } from './actionTypes';
+import { GET_CONFIGURATION_SUCCESS } from './actionTypes';
 
-export const setConfigurationFetched = () => ({ type:CONFIGURATION_FETCHED })
+export const setConfigurationFetched = () => ({ type:GET_CONFIGURATION_SUCCESS })

@@ -7,9 +7,9 @@ import { Container, Paper } from '@material-ui/core';
 import ActuatorContainer from '../containers/ActuatorContainer/ActuatorContainer';
 import styles from './App.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getConfiguration } from '../redux/actions/actuatorActions';
+import { getServiceConfiguration } from '../redux/actions/actuatorActions';
 import { IApplicationState, ServiceStatus } from '../redux/reducers/Types';
-import { setConfigurationFetched } from '../redux/actions/configurationActions';
+import { beginApiCall } from '../redux/actions/apiCallActions';
 
 const theme = createMuiTheme({
     palette: {
@@ -36,8 +36,8 @@ function App() {
     useEffect(() => {
         const { actuator } = services[0];
         if (actuator.status === ServiceStatus.UP && !configurationFetched) {
-            dispatch(setConfigurationFetched());
-            dispatch(getConfiguration());
+            dispatch(beginApiCall());
+            dispatch(getServiceConfiguration());
         }
     }, [services, configurationFetched, dispatch]);
 

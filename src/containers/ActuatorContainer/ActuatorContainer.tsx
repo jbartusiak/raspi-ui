@@ -15,7 +15,7 @@ const ActuatorContainer: React.FC<TActuatorProps> = ({selector}: TActuatorProps)
     useEffect(()=>{
         if(selectedService.actuator.status === ServiceStatus.UNKNOWN) {
             console.log(`Fetching status of ${selector}.`)
-            dispatch(actuatorActions.actuate(selectedService));
+            dispatch(actuatorActions.getServiceStatus(selectedService));
         }
     }, [selectedService, dispatch, selector]);
 

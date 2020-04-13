@@ -1,8 +1,8 @@
 import React from 'react';
 import Blinker from '../Blinker/Blinker';
-import { LinearProgress, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import styles from './Actuator.module.scss';
-import { IService, ServiceStatus } from '../../redux/reducers/Types';
+import { IService } from '../../redux/reducers/Types';
 import { Controls } from './Controls';
 import { SlideInDiv } from '../SlideInDiv/SlideInDiv';
 

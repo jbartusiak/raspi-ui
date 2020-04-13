@@ -1,40 +1,48 @@
-import { ACTUATE, UPDATE_SERVICES } from './actionTypes';
+import { GET_SERVICE_STATUS_SUCCESSS, GET_SERVICE_CONFIGURATION_SUCCESS } from './actionTypes';
 import { IService, ServiceStatus } from '../reducers/Types';
+import { apiCallFailed, beginApiCall } from './apiCallActions';
+import { setConfigurationFetched } from './configurationActions';
 
 export const setServiceStatus = (service: IService, status: ServiceStatus) => ({
-    type: ACTUATE,
+    type: GET_SERVICE_STATUS_SUCCESSS,
     service,
     status
 });
 
-export const updateServices = (services: IService[]) => ({
-    type: UPDATE_SERVICES,
+export const setServices = (services: IService[]) => ({
+    type: GET_SERVICE_CONFIGURATION_SUCCESS,
     services
 });
 
-export const getConfiguration = () => {
+export const getServiceConfiguration = () => {
     return (dispatch: Function) => {
+        dispatch(setConfigurationFetched());
+        dispatch(beginApiCall());
+
         return fetch('http://192.168.0.254:8888/configuration/raspi-ui-dev.json',
         )
             .then(response => {
                 return response.json();
             })
             .then(response => {
-                dispatch(updateServices(response));
+                dispatch(setServices(response));
             })
             .catch(error=> {
                 console.error(error);
+                dispatch(apiCallFailed());
             });
     };
 };
 
-export function actuate(service: IService) {
+export function getServiceStatus(service: IService) {
     const handleError = (error: Error, service: IService, dispatch: Function) => {
         console.error(error);
         dispatch(setServiceStatus(service, ServiceStatus.DOWN));
+        dispatch(apiCallFailed());
     }
 
     return (dispatch: Function) => {
+        dispatch(beginApiCall());
         const { uri, port, actuator } = service;
         try {
             return fetch(`http://${uri}:${port}${actuator.health}`)
