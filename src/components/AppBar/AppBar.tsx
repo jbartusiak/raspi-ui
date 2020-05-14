@@ -7,7 +7,7 @@ import { IApplicationState } from '../../redux/reducers/Types';
 import { FadeDiv } from '../AnimationComponents/FadeDiv';
 
 export const ApplicationBar = () => {
-    const apiCallsInProgress = useSelector((state: IApplicationState) => state.apiCallsInProgress);
+    const apiCallsInProgress = useSelector(({ api }: IApplicationState) => api.apiCallsInProgress);
     return (
         <AppBar position="static">
             <Toolbar>

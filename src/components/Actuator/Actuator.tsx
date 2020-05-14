@@ -2,16 +2,17 @@ import React from 'react';
 import Blinker from '../Blinker/Blinker';
 import { Typography } from '@material-ui/core';
 import styles from './Actuator.module.scss';
-import { IService } from '../../redux/reducers/Types';
-import { Controls } from './Controls';
+import { ControlActions, IService } from '../../redux/reducers/Types';
 import { SlideInDiv } from '../AnimationComponents/SlideInDiv';
+import { Controls } from './Controls';
 
 interface IActuatorProps {
     service: IService;
     isApiCallInProgress: boolean;
+    onControlButtonClick: (command: ControlActions) => void;
 }
 
-export const Actuator: React.FC<IActuatorProps> = ({ service, isApiCallInProgress }) => {
+export const Actuator: React.FC<IActuatorProps> = ({ service, isApiCallInProgress, onControlButtonClick }) => {
     const serviceUrl = `http://${service.uri}:${service.port}`;
     const { status } = service.actuator;
 
@@ -29,7 +30,7 @@ export const Actuator: React.FC<IActuatorProps> = ({ service, isApiCallInProgres
                 </small>
             </div>
 
-            {/*<Controls {...{ isApiCallInProgress, status }}/>*/}
+            {/*<Controls {...{ isApiCallInProgress, status, onControlButtonClick}}/>*/}
         </SlideInDiv>
     );
 };

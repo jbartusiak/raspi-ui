@@ -1,12 +1,16 @@
 import {
-    GET_SERVICE_STATUS_SUCCESSS,
     GET_SERVICE_CONFIGURATION_SUCCESS,
+    GET_SERVICE_STATUS_SUCCESSS,
+    SERVICE_COMMAND_CALL,
 } from './actionTypes';
-import { ICommand, IService, ServiceStatus } from '../reducers/Types';
+import {
+    ControlActions,
+    ICommand,
+    IService,
+    ServiceStatus,
+} from '../reducers/Types';
 import { apiCallFailed, beginApiCall } from './apiCallActions';
 import { setConfigurationFetched } from './configurationActions';
-import initialState from '../reducers/initialState';
-import { act } from 'react-dom/test-utils';
 
 export const setServiceStatus = (service: IService, status: ServiceStatus) => ({
     type: GET_SERVICE_STATUS_SUCCESSS,
@@ -18,6 +22,8 @@ export const setServices = (services: IService[]) => ({
     type: GET_SERVICE_CONFIGURATION_SUCCESS,
     services,
 });
+
+export const issueCommand = () => ({ type: SERVICE_COMMAND_CALL });
 
 export const getServiceConfiguration = () => {
     return (dispatch: Function) => {
@@ -39,6 +45,20 @@ export const getServiceConfiguration = () => {
             });
     };
 };
+
+const doPost = (url: string, requestBody: {}) => {
+    return fetch(url, {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        method: 'post',
+        body: JSON.stringify(requestBody),
+    });
+};
+
+const doCommand = (requestBody: {}) =>
+    doPost('http://192.168.0.254:8888/execute', requestBody);
 
 export function getServiceStatus(service: IService) {
     const handleError = (
@@ -81,14 +101,7 @@ export function getServiceStatus(service: IService) {
             elevate: true,
         };
         try {
-            return fetch('http://192.168.0.254:8888/execute', {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                method: 'post',
-                body: JSON.stringify(requestBody),
-            })
+            doCommand(requestBody)
                 .then(response => response.text())
                 .then(response => {
                     const regex = new RegExp(actuator.parseStatus);
@@ -112,5 +125,13 @@ export function getServiceStatus(service: IService) {
         } else {
             return handleCommandHealthCheck(service, dispatch);
         }
+    };
+}
+
+export function runCommand(service: IService, command: ControlActions) {
+    return (dispatch: Function) => {
+        dispatch(issueCommand());
+        dispatch(beginApiCall());
+        dispatch(setServiceStatus(service, ServiceStatus.UNKNOWN));
     };
 }

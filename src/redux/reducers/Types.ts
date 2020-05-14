@@ -4,6 +4,12 @@ export enum ServiceStatus {
     UNKNOWN,
 }
 
+export enum ControlActions {
+    START,
+    STOP,
+    RESTART,
+}
+
 export interface ICommand {
     command: string;
 }
@@ -29,7 +35,10 @@ export interface IService {
 }
 
 export interface IApplicationState {
-    apiCallsInProgress: number;
+    api: {
+        apiCallsInProgress: number;
+        serviceCommand: boolean;
+    };
     configuration: {
         fetched: boolean;
     };

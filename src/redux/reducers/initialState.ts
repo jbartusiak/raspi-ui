@@ -1,7 +1,10 @@
 import { IApplicationState, ServiceStatus } from './Types';
 
 const initialState: IApplicationState = {
-    apiCallsInProgress: 0,
+    api: {
+        apiCallsInProgress: 0,
+        serviceCommand: false,
+    },
     configuration: {
         fetched: false,
     },
