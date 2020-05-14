@@ -1,9 +1,9 @@
 import { IApplicationState, ServiceStatus } from './Types';
 
-const initialState:IApplicationState = {
+const initialState: IApplicationState = {
     apiCallsInProgress: 0,
     configuration: {
-        fetched: false
+        fetched: false,
     },
     location: '/',
     services: {
@@ -14,13 +14,13 @@ const initialState:IApplicationState = {
             actuator: {
                 status: ServiceStatus.UNKNOWN,
                 health: '/actuator/health',
-                parseStatus: /(status).*(UP)/
+                parseStatus: /(status).*(UP)/,
             },
             start: '',
             stop: '',
-            restart: ''
-        }
-    }
+            restart: '',
+        },
+    },
 };
 
 export default initialState;

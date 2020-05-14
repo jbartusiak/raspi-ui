@@ -3,13 +3,14 @@ import './App.module.scss';
 import 'typeface-roboto';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { ApplicationBar as AppBar } from './AppBar/AppBar';
-import { Container, Paper } from '@material-ui/core';
+import { Container, Paper, Typography } from '@material-ui/core';
 import ActuatorContainer from '../containers/ActuatorContainer/ActuatorContainer';
 import styles from './App.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { getServiceConfiguration } from '../redux/actions/actuatorActions';
 import { IApplicationState, ServiceStatus } from '../redux/reducers/Types';
 import { beginApiCall } from '../redux/actions/apiCallActions';
+import { ActuatorGroup } from './ActuatorGroup/ActuatorGroup';
 
 const theme = createMuiTheme({
     palette: {
@@ -45,16 +46,17 @@ function App() {
         <ThemeProvider theme={theme}>
             <AppBar/>
             <Container className={styles.ApplicationContainer}>
-                <Paper style={{ transition: 'all 1s' }}>
+                <ActuatorGroup name="Server">
                     <ActuatorContainer selector={mainServiceName}/>
+                </ActuatorGroup>
+                {services.length>1 && <ActuatorGroup name="Services">
                     {Object.values(services).slice(1).map(el =>
                         <ActuatorContainer selector={el.name}/>
                     )}
-                </Paper>
+                </ActuatorGroup>}
             </Container>
         </ThemeProvider>
-    )
-        ;
+    );
 }
 
 export default App;

@@ -19,12 +19,17 @@ export const Actuator: React.FC<IActuatorProps> = ({ service, isApiCallInProgres
         <SlideInDiv childrenClassName={styles.Actuator}>
             <Blinker status={status}/>
             <div>
+                {service.icon && <img src={service.icon}/>}
+            </div>
+
+            <div>
                 <Typography variant="h2">{service.name}</Typography>
                 <small className={styles.ActuatorSubtitle}>
                     Service address - <a href={serviceUrl}>{serviceUrl}</a>
                 </small>
             </div>
-            <Controls {...{ isApiCallInProgress, status }}/>
+
+            {/*<Controls {...{ isApiCallInProgress, status }}/>*/}
         </SlideInDiv>
     );
 };

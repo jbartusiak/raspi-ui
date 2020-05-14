@@ -14,6 +14,7 @@ export interface IService {
     name: string;
     uri: string;
     port: string;
+    icon?: string;
 
     actuator: IActuator;
 
@@ -30,6 +31,12 @@ export interface IApplicationState {
     };
     location: string;
     services: {
-        [name: string]: IService
-    }
+        [name: string]: IService;
+    };
+}
+
+export interface ISite {
+    name: string;
+    url: string;
+    icon: string;
 }
