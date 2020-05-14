@@ -4,9 +4,13 @@ export enum ServiceStatus {
     UNKNOWN,
 }
 
+export interface ICommand {
+    command: string;
+}
+
 export interface IActuator {
     status: ServiceStatus;
-    health: string;
+    health: string | ICommand;
     parseStatus: RegExp | string;
 }
 

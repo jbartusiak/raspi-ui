@@ -50,8 +50,8 @@ function App() {
                     <ActuatorContainer selector={mainServiceName}/>
                 </ActuatorGroup>
                 {services.length>1 && <ActuatorGroup name="Services">
-                    {Object.values(services).slice(1).map(el =>
-                        <ActuatorContainer selector={el.name}/>
+                    {Object.values(services).slice(1).map((el, index) =>
+                        <ActuatorContainer key={index} selector={el.name}/>
                     )}
                 </ActuatorGroup>}
             </Container>
