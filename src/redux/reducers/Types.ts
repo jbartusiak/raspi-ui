@@ -14,6 +14,11 @@ export interface ICommand {
     command: string;
 }
 
+export interface IFeatureRoute {
+    name: string;
+    route: string;
+}
+
 export interface IActuator {
     status: ServiceStatus;
     health: string | ICommand;
@@ -32,6 +37,7 @@ export interface IService {
     stop: string;
     restart: string;
     dependsOn?: string;
+    featureRoute?: IFeatureRoute;
 }
 
 export interface IApplicationState {

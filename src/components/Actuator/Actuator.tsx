@@ -5,6 +5,7 @@ import styles from './Actuator.module.scss';
 import { ControlActions, IService } from '../../redux/reducers/Types';
 import { SlideInDiv } from '../AnimationComponents/SlideInDiv';
 import { Controls } from './Controls';
+import { RouteLink } from './RouteLink';
 
 interface IActuatorProps {
     service: IService;
@@ -22,7 +23,7 @@ export const Actuator: React.FC<IActuatorProps> = ({ service, isApiCallInProgres
                 <ExpansionPanelSummary>
                     <Blinker status={status}/>
                     <div>
-                        {service.icon && <img src={service.icon}/>}
+                        {service.icon && <img alt="service icon" src={service.icon}/>}
                     </div>
 
                     <div>
@@ -34,6 +35,7 @@ export const Actuator: React.FC<IActuatorProps> = ({ service, isApiCallInProgres
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Controls {...{ isApiCallInProgress, status, onControlButtonClick }}/>
+                    <RouteLink {...service} />
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </SlideInDiv>
