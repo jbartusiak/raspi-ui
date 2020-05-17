@@ -8,14 +8,17 @@
 }
 
 .ControlsContainer {
-    margin: 0 28px 0 auto;
-    button {
-      margin: 8px 4px;
-    }
+  flex-wrap: wrap;
+  margin-top: 16px;
+  flex-basis: 100%;
+
+  button {
+    margin: 8px 4px;
+  }
 }
 
 .ActuatorSubtitle {
-  a{
+  a {
     color: #C51A4A;
   }
 }
@@ -26,5 +29,5 @@ img {
   height: 100px;
   width: 100px;
   border-radius: 100px;
-  display:block;
+  display: block;
 }
