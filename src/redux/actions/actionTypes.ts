@@ -13,6 +13,10 @@ export const API_CALL_FAILED = 'API_CALL_FAILED';
 export const SERVICE_COMMAND_CALL = 'SERVICE_COMMAND_CALL';
 export const SERVICE_COMMAND_SUCCESS = 'SERVICE_COMMAND_SUCCESS';
 
+export const GET_ALL_PROVIDERS = 'GET_ALL_PROVIDERS';
+export const MODIFY_PROVIDERS = 'MODIFY_PROVIDERS';
+export const MODIFY_PROVIDERS_SUCCESS = 'MODIFY_PROVIDERS_SUCCESS';
+
 export interface IRoutingAction extends AnyAction {
     location: string;
 }

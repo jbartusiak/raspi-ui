@@ -24,6 +24,13 @@ const initialState: IApplicationState = {
             restart: '',
         },
     },
+    torrentApi: {
+        allProviders: [],
+        activeProviders: [],
+        category: 'All',
+        query: '',
+        results: [],
+    },
 };
 
 export default initialState;

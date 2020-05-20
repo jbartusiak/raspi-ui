@@ -46,7 +46,7 @@ export const getServiceConfiguration = () => {
     };
 };
 
-const doPost = (url: string, requestBody: {}) => {
+export const doPost = (url: string, requestBody: {}) => {
     return fetch(url, {
         headers: {
             Accept: 'application/json',

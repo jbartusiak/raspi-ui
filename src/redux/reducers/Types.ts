@@ -52,6 +52,35 @@ export interface IApplicationState {
     services: {
         [name: string]: IService;
     };
+    torrentApi: ITorrentAPI;
+}
+
+export interface ITorrentProvider {
+    name: string;
+    enabled: boolean;
+}
+
+export interface ITorrentResult {
+    name: string;
+    category: string;
+}
+
+export interface ITorrentAPI {
+    allProviders: ITorrentProvider[];
+    activeProviders: ITorrentProvider[];
+    category: string;
+    query: string;
+    results: ITorrentResult[];
+}
+
+export interface EnableProvidersRequest {
+    [name: string]: boolean;
+}
+
+export interface IEndpointSpec {
+    host: string;
+    port: string;
+    uri: string;
 }
 
 export interface ISite {
