@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IApplicationState, ServiceStatus } from '../../redux/reducers/Types';
 import { beginApiCall } from '../../redux/actions/apiCallActions';
 import { getServiceConfiguration } from '../../redux/actions/actuatorActions';
+import { Container } from '@material-ui/core';
 
 export const Homepage = () => {
     const mainServiceName = 'Raspi Backend Service';
@@ -22,7 +23,7 @@ export const Homepage = () => {
     }, [services, configurationFetched, dispatch]);
 
     return (
-        <>
+        <Container>
             <ActuatorGroup name="Server">
                 <ActuatorContainer selector={mainServiceName}/>
             </ActuatorGroup>
@@ -31,6 +32,6 @@ export const Homepage = () => {
                     <ActuatorContainer key={index} selector={el.name}/>
                 )}
             </ActuatorGroup>}
-        </>
+        </Container>
     );
 };
