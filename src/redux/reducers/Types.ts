@@ -57,17 +57,19 @@ export interface IApplicationState {
 
 export interface ITorrentProvider {
     name: string;
-    enabled: boolean;
+    public: string;
+    categories: string[];
 }
 
 export interface ITorrentResult {
     name: string;
-    category: string;
+    public: string;
+    categories: string[];
 }
 
 export interface ITorrentAPI {
     allProviders: ITorrentProvider[];
-    activeProviders: ITorrentProvider[];
+    enabledProviders: string[];
     category: string;
     query: string;
     results: ITorrentResult[];

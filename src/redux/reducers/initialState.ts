@@ -26,7 +26,7 @@ const initialState: IApplicationState = {
     },
     torrentApi: {
         allProviders: [],
-        activeProviders: [],
+        enabledProviders: [],
         category: 'All',
         query: '',
         results: [],

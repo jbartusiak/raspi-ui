@@ -1,4 +1,10 @@
 import { API_CALL_FAILED, BEGIN_API_CALL } from './actionTypes';
 
-export const beginApiCall = () => ({type: BEGIN_API_CALL});
-export const apiCallFailed = () => ({type: API_CALL_FAILED});
+export const beginApiCall = (message?: string) => ({
+    type: BEGIN_API_CALL,
+    message,
+});
+export const apiCallFailed = (message?: string) => ({
+    type: API_CALL_FAILED,
+    message,
+});

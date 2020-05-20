@@ -1,23 +1,53 @@
-import { EnableProvidersRequest, IEndpointSpec } from '../reducers/Types';
-import { doPost } from './actuatorActions';
-import { MODIFY_PROVIDERS_SUCCESS } from './actionTypes';
+import { IEndpointSpec, ITorrentProvider } from '../reducers/Types';
+import {
+    GET_ENABLED_PROVIDERS_SUCCESS,
+    GET_PROVIDERS_SUCCESS,
+} from './actionTypes';
+import { apiCallFailed, beginApiCall } from './apiCallActions';
 
-const setProvidersEnabled = (providers: { [name: string]: boolean }) => ({
-    type: MODIFY_PROVIDERS_SUCCESS,
+const setEnabledProviders = (enabledProviders: ITorrentProvider[]) => ({
+    type: GET_ENABLED_PROVIDERS_SUCCESS,
+    enabledProviders,
+});
+
+const setProviders = (providers: ITorrentProvider[]) => ({
+    type: GET_PROVIDERS_SUCCESS,
     providers,
 });
 
-export const modifyProviders = (
-    { host, port, uri }: IEndpointSpec,
-    request: EnableProvidersRequest
-) => {
-    return (dispatch: Function) => {
-        const url = `${host}:${port}${uri}`;
+const handleError = (dispatch: Function, error: Error) => {
+    console.log(error);
+    dispatch(apiCallFailed(error.message));
+};
 
-        doPost(url, request)
-            .then(response => {
-                response.json();
-            })
-            .then();
+export const getAllProviders = ({ host, port, uri }: IEndpointSpec) => {
+    return (dispatch: Function) => {
+        dispatch(beginApiCall('GET_ALL_PROVIDERS'));
+        const url = `http://${host}:${port}${uri}`;
+        try {
+            fetch(url)
+                .then(result => result.json())
+                .then(result => dispatch(setProviders(result.providers)))
+                .catch(error => handleError(dispatch, error));
+        } catch (error) {
+            handleError(dispatch, error);
+        }
+    };
+};
+
+export const getEnabledProviders = ({ host, port, uri }: IEndpointSpec) => {
+    return (dispatch: Function) => {
+        dispatch(beginApiCall('GET_ENABLED_PROVIDERS'));
+        const url = `http://${host}:${port}${uri}`;
+        try {
+            fetch(url)
+                .then(result => result.json())
+                .then(result =>
+                    dispatch(setEnabledProviders(result.enabledProviders))
+                )
+                .catch(error => handleError(dispatch, error));
+        } catch (error) {
+            handleError(dispatch, error);
+        }
     };
 };
