@@ -3,6 +3,7 @@ import {
     GET_ENABLED_PROVIDERS_SUCCESS,
     GET_PROVIDERS_SUCCESS,
     UPDATE_ENABLED_PROVIDERS_SUCCESS,
+    UPDATE_QUERY,
 } from './actionTypes';
 import { apiCallFailed, beginApiCall } from './apiCallActions';
 import { doPost } from './actuatorActions';
@@ -20,6 +21,11 @@ const setProviders = (providers: ITorrentProvider[]) => ({
 
 const setUpdatedEnabledProviders = () => ({
     type: UPDATE_ENABLED_PROVIDERS_SUCCESS,
+});
+
+export const updateQuery = (query: string) => ({
+    type: UPDATE_QUERY,
+    query,
 });
 
 const handleError = (dispatch: Function, error: Error) => {

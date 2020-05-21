@@ -1,22 +1,18 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { StyledPaper } from '../../../components/Common/StyledPaper/StyledPaper';
 import { Table, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
 import { SearchField } from '../../../components/SearchField/SearchField';
 import { SelectField } from '../../../components/SelectField/SelectField';
+import { useDispatch } from 'react-redux';
+import { updateQuery } from '../../../redux/actions/torrentApiActions';
 
-type Props = {};
-export const SearchContainer = (props: Props) => {
-    const ref = useRef<number>();
+export const SearchContainer = () => {
 
-    const onDelayComplete = () => {
+    const dispatch = useDispatch();
 
-    };
-
-    const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        window.clearTimeout(ref.current);
-        console.log('Cleared timeout');
-        ref.current = window.setTimeout(onDelayComplete, 1000);
-    };
+    const handleQueryChanged = (query: string) => {
+        dispatch(updateQuery(query));
+    }
 
     return (
         <StyledPaper>
@@ -25,7 +21,7 @@ export const SearchContainer = (props: Props) => {
                 <SearchField
                     name={'query'}
                     label={'search'}
-                    handleChange={onChange}
+                    handleChange={handleQueryChanged}
                 />
                 <SelectField />
             </form>
