@@ -1,9 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { StyledPaper } from '../../../components/Common/StyledPaper/StyledPaper';
 import { Typography } from '@material-ui/core';
 import { CheckboxGroup, IOptions } from '../../../components/CheckboxGroup/CheckboxGroup';
 import { ITorrentProvider } from '../../../redux/reducers/Types';
 import { useDispatch } from 'react-redux';
+import { updateEnabledProviders } from '../../../redux/actions/torrentApiActions';
+import { updateProviders } from '../../../routes/routes';
 
 interface ProvidersContainerProps {
     providers: ITorrentProvider[];
@@ -15,9 +17,9 @@ export const ProvidersContainer = ({ providers, enabled }: ProvidersContainerPro
 
     const dispatch = useDispatch();
 
-    const handleOptionsChanged = (options:IOptions) => {
-        console.log(options);
-    }
+    const handleOptionsChanged = (options: IOptions) => {
+        dispatch(updateEnabledProviders(updateProviders, options));
+    };
 
     return (
         <StyledPaper>

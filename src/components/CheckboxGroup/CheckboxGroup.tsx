@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel } from '@material-ui/core';
 import styles from './CheckboxGroup.module.scss';
-import { useEffect, useState } from 'react';
 
 interface CheckboxGroupProps {
     options: string[];
@@ -17,30 +16,30 @@ export const CheckboxGroup = ({ checked, handleChange, options }: CheckboxGroupP
     const [state, setState] = useState<IOptions>({});
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newState = {...state, [event.target.name]: event.target.checked };
+        const newState = { ...state, [event.target.name]: event.target.checked };
         setState(newState);
         handleChange(newState);
     };
 
-    useEffect(()=> {
-        const result: {[name: string]: boolean} = {};
-        options.forEach(el=> result[el]=false);
-        checked.forEach(el=> result[el]=true);
+    useEffect(() => {
+        const result: { [name: string]: boolean } = {};
+        options.forEach(el => result[el] = false);
+        checked.forEach(el => result[el] = true);
         setState(result);
-    }, [options, checked])
+    }, [options, checked]);
 
     const areAllOptionsChecked = () => {
-        return Object.values(state).every(el=>el);
-    }
+        return Object.values(state).every(el => el);
+    };
 
     const onAllOptionsChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
         const isChecked = event.target.checked;
 
-        const newState: {[name: string]: boolean} = {};
-        options.forEach(el=>newState[el]=isChecked);
+        const newState: { [name: string]: boolean } = {};
+        options.forEach(el => newState[el] = isChecked);
         setState(newState);
         handleChange(newState);
-    }
+    };
 
     return (
         <FormControl component="fieldset" className={styles.CheckboxGroup}>
@@ -55,12 +54,12 @@ export const CheckboxGroup = ({ checked, handleChange, options }: CheckboxGroupP
                         <Checkbox
                             name="gilad"
                             checked={areAllOptionsChecked()}
-                        onChange={onAllOptionsChecked}/>
+                            onChange={onAllOptionsChecked}/>
                     }
                     label="Select all"
                 />
                 {
-                    Object.entries(state).map(([name, value], curr)=> {
+                    Object.entries(state).map(([name, value], curr) => {
                         return (
                             <FormControlLabel
                                 key={`${curr}`}

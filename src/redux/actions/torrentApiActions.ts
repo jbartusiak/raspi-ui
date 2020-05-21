@@ -2,8 +2,11 @@ import { IEndpointSpec, ITorrentProvider } from '../reducers/Types';
 import {
     GET_ENABLED_PROVIDERS_SUCCESS,
     GET_PROVIDERS_SUCCESS,
+    UPDATE_ENABLED_PROVIDERS_SUCCESS,
 } from './actionTypes';
 import { apiCallFailed, beginApiCall } from './apiCallActions';
+import { doPost } from './actuatorActions';
+import { IOptions } from '../../components/CheckboxGroup/CheckboxGroup';
 
 const setEnabledProviders = (enabledProviders: ITorrentProvider[]) => ({
     type: GET_ENABLED_PROVIDERS_SUCCESS,
@@ -13,6 +16,10 @@ const setEnabledProviders = (enabledProviders: ITorrentProvider[]) => ({
 const setProviders = (providers: ITorrentProvider[]) => ({
     type: GET_PROVIDERS_SUCCESS,
     providers,
+});
+
+const setUpdatedEnabledProviders = () => ({
+    type: UPDATE_ENABLED_PROVIDERS_SUCCESS,
 });
 
 const handleError = (dispatch: Function, error: Error) => {
@@ -45,6 +52,24 @@ export const getEnabledProviders = ({ host, port, uri }: IEndpointSpec) => {
                 .then(result =>
                     dispatch(setEnabledProviders(result.enabledProviders))
                 )
+                .catch(error => handleError(dispatch, error));
+        } catch (error) {
+            handleError(dispatch, error);
+        }
+    };
+};
+
+export const updateEnabledProviders = (
+    { host, port, uri }: IEndpointSpec,
+    providers: IOptions
+) => {
+    return (dispatch: Function) => {
+        dispatch(beginApiCall('UPDATE_ENABLED_PROVIDERS'));
+        const url = `http://${host}:${port}${uri}`;
+        try {
+            doPost(url, providers)
+                .then(result => result.json())
+                .then(() => dispatch(setUpdatedEnabledProviders()))
                 .catch(error => handleError(dispatch, error));
         } catch (error) {
             handleError(dispatch, error);
