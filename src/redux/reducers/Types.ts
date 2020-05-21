@@ -69,8 +69,9 @@ export interface ITorrentResult {
 
 export interface ITorrentAPI {
     allProviders: ITorrentProvider[];
-    enabledProviders: string[];
+    categories: string[];
     category: string;
+    enabledProviders: string[];
     query: string;
     results: ITorrentResult[];
 }

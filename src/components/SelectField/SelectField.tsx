@@ -2,7 +2,10 @@ import * as React from 'react';
 import { createStyles, FormControl, InputLabel, MenuItem, Select, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-type Props = {};
+interface ISelectFieldProps {
+    selected: string;
+    options: string[];
+};
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export const SelectField = (props: Props) => {
+export const SelectField = (props: ISelectFieldProps) => {
     const classes = useStyles();
     const [age, setAge] = React.useState('');
 
@@ -34,12 +37,15 @@ export const SelectField = (props: Props) => {
                 onChange={handleChange}
                 label="Category"
             >
-                <MenuItem value="">
-                    <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {
+                    props.options.map((el, index) =>
+                        <MenuItem
+                            selected={props.selected===el}
+                            key={index}
+                            value={el}>
+                            {el}
+                        </MenuItem>)
+                }
             </Select>
         </FormControl>
     );

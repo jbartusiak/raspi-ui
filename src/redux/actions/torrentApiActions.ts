@@ -19,8 +19,9 @@ const setProviders = (providers: ITorrentProvider[]) => ({
     providers,
 });
 
-const setUpdatedEnabledProviders = () => ({
+const setUpdatedEnabledProviders = (providers: string[]) => ({
     type: UPDATE_ENABLED_PROVIDERS_SUCCESS,
+    providers,
 });
 
 export const updateQuery = (query: string) => ({
@@ -75,7 +76,11 @@ export const updateEnabledProviders = (
         try {
             doPost(url, providers)
                 .then(result => result.json())
-                .then(() => dispatch(setUpdatedEnabledProviders()))
+                .then(result =>
+                    dispatch(
+                        setUpdatedEnabledProviders(result.enabledProviders)
+                    )
+                )
                 .catch(error => handleError(dispatch, error));
         } catch (error) {
             handleError(dispatch, error);
