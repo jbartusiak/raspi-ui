@@ -32,7 +32,7 @@ export const TorrentSearchPage = () => {
         <FadeDiv shouldDisplay={true}>
             <Grid container style={{ maxWidth: '100vw', margin: 'auto' }} spacing={3}>
                 <Grid item xs={12} md={4}>
-                    <ProvidersContainer/>
+                    <ProvidersContainer enabled={torrentAPI.enabledProviders} providers={torrentAPI.allProviders}/>
                 </Grid>
                 <Grid item xs={12} md={8}>
                     <SearchContainer/>
