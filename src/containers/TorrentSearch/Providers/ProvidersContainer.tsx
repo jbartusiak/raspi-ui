@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyledPaper } from '../../../components/Common/StyledPaper/StyledPaper';
 import { Typography } from '@material-ui/core';
 import { CheckboxGroup, IOptions } from '../../../components/CheckboxGroup/CheckboxGroup';
-import { ITorrentProvider } from '../../../redux/reducers/Types';
-import { useDispatch } from 'react-redux';
-import { updateEnabledProviders } from '../../../redux/actions/torrentApiActions';
-import { updateProviders } from '../../../routes/routes';
+import { IApplicationState } from '../../../redux/reducers/Types';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProviders, getEnabledProviders, updateEnabledProviders } from '../../../redux/actions/torrentApiActions';
+import {
+    getAllProviders as allProvidersRoute,
+    getEnabledProviders as enabledProvidersRoute,
+    updateProviders
+} from '../../../routes/routes';
 
-interface ProvidersContainerProps {
-    providers: ITorrentProvider[];
-    enabled: string[];
-}
-
-export const ProvidersContainer = ({ providers, enabled }: ProvidersContainerProps) => {
-    const options = providers.map(provider => provider.name);
-
+export const ProvidersContainer = () => {
+    const torrentAPI = useSelector((state: IApplicationState) => state.torrentApi);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!torrentAPI.allProviders.length) {
+            dispatch(getAllProviders(allProvidersRoute));
+            dispatch(getEnabledProviders(enabledProvidersRoute));
+        }
+    }, [dispatch, torrentAPI]);
 
     const handleOptionsChanged = (options: IOptions) => {
         dispatch(updateEnabledProviders(updateProviders, options));
@@ -25,9 +30,9 @@ export const ProvidersContainer = ({ providers, enabled }: ProvidersContainerPro
         <StyledPaper>
             <Typography variant="h3">Providers</Typography>
             <CheckboxGroup
-                checked={enabled}
+                checked={torrentAPI.enabledProviders}
                 handleChange={handleOptionsChanged}
-                options={options} />
+                options={torrentAPI.allProviders.map(el=>el.name)} />
         </StyledPaper>
     );
 };
