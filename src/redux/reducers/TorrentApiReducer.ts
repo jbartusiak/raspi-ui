@@ -8,6 +8,7 @@ import {
     UPDATE_QUERY,
     UPDATE_ENABLED_PROVIDERS_SUCCESS,
     UPDATE_CATEGORY,
+    SEARCH_RESULTS_SUCCESS,
 } from '../actions/actionTypes';
 import { ITorrentProvider } from './Types';
 
@@ -53,6 +54,14 @@ export const torrentAPIReducer = (
         return {
             ...state,
             category,
+        };
+    }
+    if (action.type === SEARCH_RESULTS_SUCCESS) {
+        const { results } = action;
+
+        return {
+            ...state,
+            results,
         };
     }
     return state;

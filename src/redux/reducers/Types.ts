@@ -1,3 +1,5 @@
+import { Torrent } from 'torrent-search-api';
+
 export enum ServiceStatus {
     UP,
     DOWN,
@@ -61,19 +63,13 @@ export interface ITorrentProvider {
     categories: string[];
 }
 
-export interface ITorrentResult {
-    name: string;
-    public: string;
-    categories: string[];
-}
-
 export interface ITorrentAPI {
     allProviders: ITorrentProvider[];
     categories: string[];
     category: string;
     enabledProviders: string[];
     query: string;
-    results: ITorrentResult[];
+    results: Torrent[];
 }
 
 export interface EnableProvidersRequest {

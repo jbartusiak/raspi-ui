@@ -19,8 +19,9 @@ export const SearchContainer = () => {
     const dispatch = useDispatch();
 
     const handleQueryChanged = (query: string) => {
+        console.log(query);
         dispatch(updateQuery(query));
-        dispatch(performSearch(torrentSearchRoute, query));
+        dispatch(performSearch(torrentSearchRoute, query, selected));
     };
 
     const handleCategoryChanged = (category: string) => {
@@ -54,7 +55,7 @@ export const SearchContainer = () => {
                 </TableHead>
                 <TableBody>
                     <TableRow>
-                        {results.map(el=>el.name)}
+                        {results.map(el=>el.title)}
                     </TableRow>
                 </TableBody>
             </Table>
