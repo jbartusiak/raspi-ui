@@ -13,6 +13,7 @@ import { SearchField } from '../../../components/SearchField/SearchField';
 import { SelectField } from '../../../components/SelectField/SelectField';
 import { performSearch, updateCategory, updateQuery } from '../../../redux/actions/torrentApiActions';
 import { performSearch as torrentSearchRoute } from './../../../routes/routes';
+import { SlideInDiv } from '../../../components/AnimationComponents/SlideInDiv';
 
 export const SearchContainer = () => {
 
@@ -55,10 +56,14 @@ export const SearchContainer = () => {
         );
     };
 
+    const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+    }
+
     return (
         <StyledPaper>
             <Typography variant="h3">Search</Typography>
-            <form style={{ display: 'flex' }}>
+            <form style={{ display: 'flex' }} onSubmit={formHandler}>
                 <SearchField
                     handleChange={handleQueryChanged}
                     label={'search'}
@@ -70,21 +75,25 @@ export const SearchContainer = () => {
                     selected={selected}
                 />
             </form>
-            <Table size="small" style={{ maxWidth: '100%' }}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Title</TableCell>
-                        <TableCell> </TableCell>
-                        <TableCell>Uploaded</TableCell>
-                        <TableCell>Size</TableCell>
-                        <TableCell>Condition</TableCell>
-                        <TableCell>Provider</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {results.map(torrentRow)}
-                </TableBody>
-            </Table>
+            {
+                results.length > 0 && <SlideInDiv>
+                    <Table size="small" style={{ maxWidth: '100%' }}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Title</TableCell>
+                                <TableCell> </TableCell>
+                                <TableCell>Uploaded</TableCell>
+                                <TableCell>Size</TableCell>
+                                <TableCell>Condition</TableCell>
+                                <TableCell>Provider</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {results.map(torrentRow)}
+                        </TableBody>
+                    </Table>
+                </SlideInDiv>
+            }
         </StyledPaper>
     );
 };
