@@ -4,11 +4,16 @@ import { Typography } from '@material-ui/core';
 import { CheckboxGroup, IOptions } from '../../../components/CheckboxGroup/CheckboxGroup';
 import { IApplicationState } from '../../../redux/reducers/Types';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllProviders, getEnabledProviders, updateEnabledProviders } from '../../../redux/actions/torrentApiActions';
+import {
+    getAllProviders,
+    getEnabledProviders,
+    performSearch,
+    updateEnabledProviders
+} from '../../../redux/actions/torrentApiActions';
 import {
     getAllProviders as allProvidersRoute,
-    getEnabledProviders as enabledProvidersRoute,
-    updateProviders as updateProvidersRoute,
+    getEnabledProviders as enabledProvidersRoute, performSearch as torrentSearchRoute,
+    updateProviders as updateProvidersRoute
 } from '../../../routes/routes';
 
 export const ProvidersContainer = () => {
@@ -24,6 +29,9 @@ export const ProvidersContainer = () => {
 
     const handleOptionsChanged = (options: IOptions) => {
         dispatch(updateEnabledProviders(updateProvidersRoute, options));
+        if (torrentAPI.query) {
+            dispatch(performSearch(torrentSearchRoute, torrentAPI.query, torrentAPI.category));
+        }
     };
 
     return (
