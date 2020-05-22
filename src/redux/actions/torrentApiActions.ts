@@ -104,7 +104,7 @@ export const performSearch = (
     { host, port, uri }: IEndpointSpec,
     query: string,
     categories: string | string[],
-    limit?: number
+    limit: number = 20
 ) => {
     return (dispatch: Function) => {
         dispatch(beginApiCall('PERFORM_SEARCH'));

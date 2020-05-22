@@ -1,19 +1,26 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
+
+import { Torrent } from 'torrent-search-api';
+
+import { IApplicationState } from '../../../redux/reducers/Types';
+import { TorrentCondition } from '../../../components/TorrentCondition/TorrentCondition';
 import { StyledPaper } from '../../../components/Common/StyledPaper/StyledPaper';
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
 import { SearchField } from '../../../components/SearchField/SearchField';
 import { SelectField } from '../../../components/SelectField/SelectField';
-import { useDispatch, useSelector } from 'react-redux';
 import { performSearch, updateCategory, updateQuery } from '../../../redux/actions/torrentApiActions';
-import { IApplicationState } from '../../../redux/reducers/Types';
 import { performSearch as torrentSearchRoute } from './../../../routes/routes';
 
 export const SearchContainer = () => {
 
-    const { options, results, selected } = useSelector((state: IApplicationState) => ({
+    const { options, results, selected, query } = useSelector((state: IApplicationState) => ({
         options: state.torrentApi.categories,
         selected: state.torrentApi.category,
         results: state.torrentApi.results,
+        query: state.torrentApi.query
     }));
 
     const dispatch = useDispatch();
@@ -26,7 +33,27 @@ export const SearchContainer = () => {
 
     const handleCategoryChanged = (category: string) => {
         dispatch(updateCategory(category));
-    }
+        if (query) dispatch(performSearch(torrentSearchRoute, query, category));
+    };
+
+    const torrentRow = (torrent: Torrent & { seeds?: number, peers?: number }) => {
+        const { seeds, peers } = torrent;
+
+        return (
+            <TableRow key={torrent.magnet}>
+                <TableCell style={{ maxWidth: '300px', overflow: 'hidden' }}>
+                    <Link target="_blank" href={torrent.desc}>{torrent.title}</Link>
+                </TableCell>
+                <TableCell><Link href="#"><GetAppIcon/></Link></TableCell>
+                <TableCell>{torrent.time}</TableCell>
+                <TableCell>{torrent.size}</TableCell>
+                <TableCell>
+                    <TorrentCondition seeds={seeds} leech={peers}/>
+                </TableCell>
+                <TableCell>{torrent.provider}</TableCell>
+            </TableRow>
+        );
+    };
 
     return (
         <StyledPaper>
@@ -43,20 +70,19 @@ export const SearchContainer = () => {
                     selected={selected}
                 />
             </form>
-            <Table>
+            <Table size="small" style={{ maxWidth: '100%' }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Torrent name</TableCell>
-                        <TableCell align="right">Category(s)</TableCell>
-                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                        <TableCell>Title</TableCell>
+                        <TableCell> </TableCell>
+                        <TableCell>Uploaded</TableCell>
+                        <TableCell>Size</TableCell>
+                        <TableCell>Condition</TableCell>
+                        <TableCell>Provider</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow>
-                        {results.map(el=>el.title)}
-                    </TableRow>
+                    {results.map(torrentRow)}
                 </TableBody>
             </Table>
         </StyledPaper>

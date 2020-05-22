@@ -61,7 +61,7 @@ export const torrentAPIReducer = (
 
         return {
             ...state,
-            results,
+            results: results || [],
         };
     }
     return state;

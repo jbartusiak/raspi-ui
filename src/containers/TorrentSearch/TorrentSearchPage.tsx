@@ -4,7 +4,7 @@ import { ProvidersContainer } from './Providers/ProvidersContainer';
 import { SearchContainer } from './SearchContainer/SearchContainer';
 
 export const TorrentSearchPage = () =>  (
-    <Grid container style={{ maxWidth: '100vw', margin: 'auto' }} spacing={3}>
+    <Grid container style={{ maxWidth: '100%', margin: 'auto' }} spacing={3}>
         <Grid item xs={12} md={4}>
             <ProvidersContainer />
         </Grid>

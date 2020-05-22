@@ -1,0 +1,20 @@
+.Indicator {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.Icon {
+  margin-left: 16px;
+  margin-right: 0;
+}
+
+.Seeds {
+  color: #2e7d32;
+}
+
+.Peers {
+  color: #c62828;
+}
