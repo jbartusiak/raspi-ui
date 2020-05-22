@@ -8,6 +8,7 @@ import {
     UPDATE_QUERY,
     UPDATE_ENABLED_PROVIDERS_SUCCESS,
 } from '../actions/actionTypes';
+import { ITorrentProvider } from './Types';
 
 export const torrentAPIReducer = (
     state = initialState.torrentApi,
@@ -26,18 +27,31 @@ export const torrentAPIReducer = (
             .map(el => el.categories)
             .flat(1)
             .filter((element, index, self) => self.indexOf(element) === index);
+
         return {
             ...state,
             enabledProviders: enabledProviders.map(provider => provider.name),
-            categories,
+            categories: categories.length > 0 ? categories : ['None'],
+            category: categories[0] || 'None',
         };
     }
     if (action.type === UPDATE_ENABLED_PROVIDERS_SUCCESS) {
-        const { providers } = action as AnyAction & { providers: string[] };
-        console.log(providers);
+        const { providers, allProviders } = action as AnyAction & {
+            providers: string[];
+            allProviders: ITorrentProvider[];
+        };
+
+        const categories = allProviders
+            .filter(provider => providers.includes(provider.name))
+            .map(el => el.categories)
+            .flat(1)
+            .filter((element, index, self) => self.indexOf(element) === index);
+
         return {
             ...state,
             enabledProviders: providers,
+            categories: categories.length > 0 ? categories : ['None'],
+            category: categories[0] || 'None',
         };
     }
     if (action.type === UPDATE_QUERY) {

@@ -17,3 +17,9 @@ export const updateProviders: IEndpointSpec = {
     port: '3001',
     uri: '/providers',
 };
+
+export const performSearch: IEndpointSpec = {
+    host: '192.168.0.254',
+    port: '3001',
+    uri: '/torrent/search',
+};

@@ -19,9 +19,13 @@ const setProviders = (providers: ITorrentProvider[]) => ({
     providers,
 });
 
-const setUpdatedEnabledProviders = (providers: string[]) => ({
+const setUpdatedEnabledProviders = (
+    providers: string[],
+    allProviders: ITorrentProvider[]
+) => ({
     type: UPDATE_ENABLED_PROVIDERS_SUCCESS,
     providers,
+    allProviders,
 });
 
 export const updateQuery = (query: string) => ({
@@ -68,7 +72,8 @@ export const getEnabledProviders = ({ host, port, uri }: IEndpointSpec) => {
 
 export const updateEnabledProviders = (
     { host, port, uri }: IEndpointSpec,
-    providers: IOptions
+    providers: IOptions,
+    allProviders: ITorrentProvider[]
 ) => {
     return (dispatch: Function) => {
         dispatch(beginApiCall('UPDATE_ENABLED_PROVIDERS'));
@@ -78,7 +83,10 @@ export const updateEnabledProviders = (
                 .then(result => result.json())
                 .then(result =>
                     dispatch(
-                        setUpdatedEnabledProviders(result.enabledProviders)
+                        setUpdatedEnabledProviders(
+                            result.enabledProviders,
+                            allProviders
+                        )
                     )
                 )
                 .catch(error => handleError(dispatch, error));
@@ -87,3 +95,5 @@ export const updateEnabledProviders = (
         }
     };
 };
+
+export const performSearch = (spec: IEndpointSpec, query: string) => {};

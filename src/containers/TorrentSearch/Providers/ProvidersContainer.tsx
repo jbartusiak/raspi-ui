@@ -23,7 +23,7 @@ export const ProvidersContainer = () => {
     }, [dispatch, torrentAPI]);
 
     const handleOptionsChanged = (options: IOptions) => {
-        dispatch(updateEnabledProviders(updateProviders, options));
+        dispatch(updateEnabledProviders(updateProviders, options, torrentAPI.allProviders));
     };
 
     return (

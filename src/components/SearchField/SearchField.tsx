@@ -9,14 +9,13 @@ interface SearchFieldProps {
 }
 
 export const SearchField = (props: SearchFieldProps) => {
-    const ref = useRef<number>();
+    const ref = useRef<number>(-1);
 
     const onDelayComplete = (value: string) => props.handleChange(value);
 
     const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const value = evt.target.value;
         window.clearTimeout(ref.current);
-        console.log('Cleared timeout');
         ref.current = window.setTimeout(() => onDelayComplete(value), 1000);
     };
 

@@ -5,7 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 interface ISelectFieldProps {
     selected: string;
     options: string[];
-};
+    handleChange: (value: string) => void;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,11 +22,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const SelectField = (props: ISelectFieldProps) => {
     const classes = useStyles();
-    const [age, setAge] = React.useState('');
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setAge(event.target.value as string);
+    const onChange = ({ target }: React.ChangeEvent<{ value: unknown }>) => {
+        props.handleChange(target.value as string);
     };
+
+    const menuOptions = (options: string[]) => {
+        return options.map((el, index) =>
+            <MenuItem
+                selected={props.selected===el}
+                key={index}
+                value={el}>
+                {el}
+            </MenuItem>)
+    }
 
     return (
         <FormControl variant="outlined" className={classes.formControl}>
@@ -33,19 +43,11 @@ export const SelectField = (props: ISelectFieldProps) => {
             <Select
                 labelId="demo-simple-select-outlined-label"
                 id="demo-simple-select-outlined"
-                value={age}
-                onChange={handleChange}
+                onChange={onChange}
                 label="Category"
+                value={props.selected}
             >
-                {
-                    props.options.map((el, index) =>
-                        <MenuItem
-                            selected={props.selected===el}
-                            key={index}
-                            value={el}>
-                            {el}
-                        </MenuItem>)
-                }
+                { menuOptions(props.options) }
             </Select>
         </FormControl>
     );
