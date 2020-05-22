@@ -7,8 +7,14 @@ import {
     IGetEnabledProvidersAction,
     UPDATE_QUERY,
     UPDATE_ENABLED_PROVIDERS_SUCCESS,
+    UPDATE_CATEGORY,
 } from '../actions/actionTypes';
 import { ITorrentProvider } from './Types';
+
+const composeCategories = (enabledProviders: ITorrentProvider[]) =>
+    enabledProviders
+        .flatMap(el => el.categories)
+        .filter((element, index, self) => self.indexOf(element) === index);
 
 export const torrentAPIReducer = (
     state = initialState.torrentApi,
@@ -23,10 +29,7 @@ export const torrentAPIReducer = (
     }
     if (action.type === GET_ENABLED_PROVIDERS_SUCCESS) {
         const { enabledProviders } = action as IGetEnabledProvidersAction;
-        const categories = enabledProviders
-            .map(el => el.categories)
-            .flat(1)
-            .filter((element, index, self) => self.indexOf(element) === index);
+        const categories = composeCategories(enabledProviders);
 
         return {
             ...state,
@@ -36,29 +39,20 @@ export const torrentAPIReducer = (
         };
     }
     if (action.type === UPDATE_ENABLED_PROVIDERS_SUCCESS) {
-        const { providers, allProviders } = action as AnyAction & {
-            providers: string[];
-            allProviders: ITorrentProvider[];
-        };
-
-        const categories = allProviders
-            .filter(provider => providers.includes(provider.name))
-            .map(el => el.categories)
-            .flat(1)
-            .filter((element, index, self) => self.indexOf(element) === index);
-
-        return {
-            ...state,
-            enabledProviders: providers,
-            categories: categories.length > 0 ? categories : ['None'],
-            category: categories[0] || 'None',
-        };
+        return state;
     }
     if (action.type === UPDATE_QUERY) {
         const { query } = action as AnyAction & { query: string };
         return {
             ...state,
             query,
+        };
+    }
+    if (action.type === UPDATE_CATEGORY) {
+        const { category } = action as AnyAction & { category: string };
+        return {
+            ...state,
+            category,
         };
     }
     return state;

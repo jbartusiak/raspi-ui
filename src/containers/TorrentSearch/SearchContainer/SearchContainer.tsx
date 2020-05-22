@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@m
 import { SearchField } from '../../../components/SearchField/SearchField';
 import { SelectField } from '../../../components/SelectField/SelectField';
 import { useDispatch, useSelector } from 'react-redux';
-import { performSearch, updateQuery } from '../../../redux/actions/torrentApiActions';
+import { performSearch, updateCategory, updateQuery } from '../../../redux/actions/torrentApiActions';
 import { IApplicationState } from '../../../redux/reducers/Types';
 import { performSearch as torrentSearchRoute } from './../../../routes/routes';
 
@@ -24,7 +24,7 @@ export const SearchContainer = () => {
     };
 
     const handleCategoryChanged = (category: string) => {
-        console.log(category);
+        dispatch(updateCategory(category));
     }
 
     return (

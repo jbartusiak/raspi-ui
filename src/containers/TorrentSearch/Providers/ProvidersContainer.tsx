@@ -8,7 +8,7 @@ import { getAllProviders, getEnabledProviders, updateEnabledProviders } from '..
 import {
     getAllProviders as allProvidersRoute,
     getEnabledProviders as enabledProvidersRoute,
-    updateProviders
+    updateProviders as updateProvidersRoute,
 } from '../../../routes/routes';
 
 export const ProvidersContainer = () => {
@@ -23,7 +23,7 @@ export const ProvidersContainer = () => {
     }, [dispatch, torrentAPI]);
 
     const handleOptionsChanged = (options: IOptions) => {
-        dispatch(updateEnabledProviders(updateProviders, options, torrentAPI.allProviders));
+        dispatch(updateEnabledProviders(updateProvidersRoute, options));
     };
 
     return (

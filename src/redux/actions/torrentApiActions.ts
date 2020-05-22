@@ -2,12 +2,14 @@ import { IEndpointSpec, ITorrentProvider } from '../reducers/Types';
 import {
     GET_ENABLED_PROVIDERS_SUCCESS,
     GET_PROVIDERS_SUCCESS,
+    UPDATE_CATEGORY,
     UPDATE_ENABLED_PROVIDERS_SUCCESS,
     UPDATE_QUERY,
 } from './actionTypes';
 import { apiCallFailed, beginApiCall } from './apiCallActions';
 import { doPost } from './actuatorActions';
 import { IOptions } from '../../components/CheckboxGroup/CheckboxGroup';
+import { getEnabledProviders as getEnabledProvidersRoute } from '../../routes/routes';
 
 const setEnabledProviders = (enabledProviders: ITorrentProvider[]) => ({
     type: GET_ENABLED_PROVIDERS_SUCCESS,
@@ -19,18 +21,18 @@ const setProviders = (providers: ITorrentProvider[]) => ({
     providers,
 });
 
-const setUpdatedEnabledProviders = (
-    providers: string[],
-    allProviders: ITorrentProvider[]
-) => ({
+const setUpdatedEnabledProviders = {
     type: UPDATE_ENABLED_PROVIDERS_SUCCESS,
-    providers,
-    allProviders,
-});
+};
 
 export const updateQuery = (query: string) => ({
     type: UPDATE_QUERY,
     query,
+});
+
+export const updateCategory = (category: string) => ({
+    type: UPDATE_CATEGORY,
+    category,
 });
 
 const handleError = (dispatch: Function, error: Error) => {
@@ -72,8 +74,7 @@ export const getEnabledProviders = ({ host, port, uri }: IEndpointSpec) => {
 
 export const updateEnabledProviders = (
     { host, port, uri }: IEndpointSpec,
-    providers: IOptions,
-    allProviders: ITorrentProvider[]
+    providers: IOptions
 ) => {
     return (dispatch: Function) => {
         dispatch(beginApiCall('UPDATE_ENABLED_PROVIDERS'));
@@ -81,14 +82,10 @@ export const updateEnabledProviders = (
         try {
             doPost(url, providers)
                 .then(result => result.json())
-                .then(result =>
-                    dispatch(
-                        setUpdatedEnabledProviders(
-                            result.enabledProviders,
-                            allProviders
-                        )
-                    )
-                )
+                .then(() => {
+                    dispatch(setUpdatedEnabledProviders);
+                    dispatch(getEnabledProviders(getEnabledProvidersRoute));
+                })
                 .catch(error => handleError(dispatch, error));
         } catch (error) {
             handleError(dispatch, error);

@@ -18,6 +18,7 @@ export const GET_ENABLED_PROVIDERS_SUCCESS = 'GET_ENABLED_PROVIDERS_SUCCESS';
 export const UPDATE_ENABLED_PROVIDERS_SUCCESS =
     'UPDATE_ENABLED_PROVIDERS_SUCCESS';
 export const UPDATE_QUERY = 'UPDATE_QUERY';
+export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 
 export interface IRoutingAction extends AnyAction {
     location: string;
