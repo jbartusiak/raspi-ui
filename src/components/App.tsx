@@ -7,6 +7,7 @@ import styles from './App.module.scss';
 import { Route, Switch } from 'react-router-dom';
 import { Homepage } from '../containers/Homepage/Homepage';
 import { TorrentSearchPage } from '../containers/TorrentSearch/TorrentSearchPage';
+import { TorrentClientPage } from '../containers/TorrentClient/TorrentClientPage';
 
 const theme = createMuiTheme({
     palette: {
@@ -27,11 +28,14 @@ const theme = createMuiTheme({
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            <AppBar />
+            <AppBar/>
             <div className={styles.ApplicationContainer}>
                 <Switch>
+                    <Route path={'/pi-tor'}>
+                        <TorrentClientPage/>
+                    </Route>
                     <Route path={'/torrent'}>
-                        <TorrentSearchPage />
+                        <TorrentSearchPage/>
                     </Route>
                     <Route path={'/'}><Homepage/></Route>
                 </Switch>
