@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import {
-    Avatar,
+    Avatar, Checkbox,
     Container,
     IconButton,
     LinearProgress,
@@ -37,34 +37,45 @@ export const TorrentClientPage = () => {
             <StyledPaper>
                 <Typography variant="h3">Torrents</Typography>
                 <List>
-                    <ListItem button onClick={() => console.log('clicked!')}>
-                        <ListItemAvatar>
-                            <Avatar style={{ backgroundColor: '#C51A4A', color: '#FFF' }}>
-                                <MusicNoteIcon/>
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            style={{ marginRight: '100px' }}
-                            primary="The name of the torrent"
-                            secondary={
-                                <><LinearProgress variant={'determinate'} value={40}/>
-                                    <div>40% / 400MB out of 1GB</div>
-                                </>
-                            }
-                        />
-                        <ListItemSecondaryAction>
-                            <IconButton href="#"
-                                        edge="end" aria-label="comments">
-                                <PlayArrowIcon/>
-                            </IconButton>
-                            <IconButton edge="end" aria-label="comments">
-                                <PauseIcon/>
-                            </IconButton>
-                            <IconButton edge="end" aria-label="comments">
-                                <StopIcon/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
+                    {torrentClientAPI.torrents?.map(torrent => (
+                        <ListItem button onClick={() => console.log('clicked!')}>
+                            <ListItemAvatar>
+                                <Checkbox
+                                icon={(
+                                    <Avatar style={{ backgroundColor: '#C51A4A', color: '#FFF' }}>
+                                        <MusicNoteIcon/>
+                                    </Avatar>
+                                )}
+                                checkedIcon={(
+                                    <Avatar style={{ backgroundColor: '#6CC04A', color: '#FFF' }}>
+                                        <MusicNoteIcon/>
+                                    </Avatar>
+                                )}
+                                />
+                            </ListItemAvatar>
+                            <ListItemText
+                                style={{ marginRight: '100px' }}
+                                primary={torrent.name}
+                                secondary={
+                                    <><LinearProgress variant={'determinate'} value={40}/>
+                                        <div>40% / 400MB out of 1GB</div>
+                                    </>
+                                }
+                            />
+                            <ListItemSecondaryAction>
+                                <IconButton href="#"
+                                            edge="end" aria-label="comments">
+                                    <PlayArrowIcon/>
+                                </IconButton>
+                                <IconButton edge="end" aria-label="comments">
+                                    <PauseIcon/>
+                                </IconButton>
+                                <IconButton edge="end" aria-label="comments">
+                                    <StopIcon/>
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    ))}
                 </List>
             </StyledPaper>
         </Container>

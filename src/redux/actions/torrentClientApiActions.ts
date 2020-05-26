@@ -1,9 +1,9 @@
-import { IEndpointSpec } from '../reducers/Types';
+import { IEndpointSpec, ITorrentClientAPITorrentItem } from '../reducers/Types';
 import { handleError } from './torrentApiActions';
 import { UPDATE_ACTIVE_TORRENT_SUCCESS } from './actionTypes';
 import { beginApiCall } from './apiCallActions';
 
-const setActiveTorrents = (torrents: []) => ({
+const setActiveTorrents = (torrents: ITorrentClientAPITorrentItem[]) => ({
     type: UPDATE_ACTIVE_TORRENT_SUCCESS,
     torrents,
 });

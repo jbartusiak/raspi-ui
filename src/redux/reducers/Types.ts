@@ -58,8 +58,21 @@ export interface IApplicationState {
     torrentClientApi: ITorrentClientAPI;
 }
 
+export interface ITorrentClientAPITorrentItem {
+    downloadDir: string;
+    eta: number;
+    id: number;
+    name: string;
+    peersConnected: number;
+    peersSendingToUs: number;
+    rateDownload: number;
+    rateUpload: number;
+    status: number;
+    totalSize: number;
+}
+
 export interface ITorrentClientAPI {
-    torrents: [] | null;
+    torrents: ITorrentClientAPITorrentItem[] | null;
 }
 
 export interface ITorrentProvider {
