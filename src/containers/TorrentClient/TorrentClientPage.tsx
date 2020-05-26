@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import {
     Avatar,
     Container,
@@ -16,8 +17,21 @@ import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import PauseIcon from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
 import { StyledPaper } from '../../components/Common/StyledPaper/StyledPaper';
+import { useDispatch, useSelector } from 'react-redux';
+import { IApplicationState } from '../../redux/reducers/Types';
+import { getActiveTorrents } from '../../redux/actions/torrentClientApiActions';
+import { getActiveTorrents as getActiveTorrentsRoute } from '../../routes/routes';
 
 export const TorrentClientPage = () => {
+    const dispatch = useDispatch();
+    const torrentClientAPI = useSelector((state: IApplicationState) => state.torrentClientApi);
+
+    useEffect(() => {
+        if (torrentClientAPI.torrents === null) {
+            dispatch(getActiveTorrents(getActiveTorrentsRoute));
+        }
+    }, [dispatch, torrentClientAPI]);
+
     return (
         <Container maxWidth={'xl'}>
             <StyledPaper>
@@ -25,7 +39,7 @@ export const TorrentClientPage = () => {
                 <List>
                     <ListItem button onClick={() => console.log('clicked!')}>
                         <ListItemAvatar>
-                            <Avatar style={{backgroundColor: '#C51A4A', color:'#FFF'}}>
+                            <Avatar style={{ backgroundColor: '#C51A4A', color: '#FFF' }}>
                                 <MusicNoteIcon/>
                             </Avatar>
                         </ListItemAvatar>

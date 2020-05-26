@@ -23,3 +23,9 @@ export const performSearch: IEndpointSpec = {
     port: '3001',
     uri: '/torrent/search',
 };
+
+export const getActiveTorrents: IEndpointSpec = {
+    host: '192.168.0.254',
+    port: '3001',
+    uri: '/transmission/active',
+};

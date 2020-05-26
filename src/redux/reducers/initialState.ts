@@ -32,6 +32,9 @@ const initialState: IApplicationState = {
         query: '',
         results: [],
     },
+    torrentClientApi: {
+        torrents: null,
+    },
 };
 
 export default initialState;

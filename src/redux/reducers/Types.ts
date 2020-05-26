@@ -55,6 +55,11 @@ export interface IApplicationState {
         [name: string]: IService;
     };
     torrentApi: ITorrentAPI;
+    torrentClientApi: ITorrentClientAPI;
+}
+
+export interface ITorrentClientAPI {
+    torrents: [] | null;
 }
 
 export interface ITorrentProvider {

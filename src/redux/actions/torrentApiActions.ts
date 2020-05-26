@@ -42,7 +42,7 @@ export const setSearchResults = (results: Torrent[]) => ({
     results,
 });
 
-const handleError = (dispatch: Function, error: Error) => {
+export const handleError = (dispatch: Function, error: Error) => {
     console.log(error);
     dispatch(apiCallFailed(error.message));
 };

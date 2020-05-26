@@ -21,6 +21,8 @@ export const UPDATE_ENABLED_PROVIDERS_SUCCESS =
 export const UPDATE_QUERY = 'UPDATE_QUERY';
 export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 
+export const UPDATE_ACTIVE_TORRENT_SUCCESS = 'UPDATE_ACTIVE_TORRENT_SUCCESS';
+
 export interface IRoutingAction extends AnyAction {
     location: string;
 }
