@@ -5,18 +5,12 @@ import App from './components/App';
 import {Provider as ReduxProvider} from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
 import { configureStore } from './redux/configureStore.dev';
-import initialState from './redux/reducers/initialState';
+import initialState, { subscribeListener } from './redux/reducers/initialState';
 
-const initialStateKey = 'RASPI_STATE';
-const localStorageInitialState = localStorage.getItem(initialStateKey);
-const reduxState = localStorageInitialState? JSON.parse(localStorageInitialState) : initialState;
-
-const reduxStore = configureStore(reduxState);
+const reduxStore = configureStore(initialState);
 
 reduxStore.subscribe(() => {
-    console.log('Saving to local state');
-    const state = reduxStore.getState();
-    localStorage.setItem('RASPI_STATE', JSON.stringify(state));
+    subscribeListener(reduxStore);
 });
 
 render(

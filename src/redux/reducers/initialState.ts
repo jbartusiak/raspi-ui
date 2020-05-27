@@ -37,4 +37,31 @@ const initialState: IApplicationState = {
     },
 };
 
-export default initialState;
+const initialStateKey = 'RASPI_STATE';
+const localStorageInitialState = localStorage.getItem(initialStateKey) || '{}';
+
+const createInitialState = () => {
+    const appState = JSON.parse(localStorageInitialState) as IApplicationState;
+    return {
+        ...initialState,
+        services: {
+            ...initialState.services,
+            ...appState?.services,
+        },
+        torrentApi: {
+            ...initialState.torrentApi,
+            ...appState?.torrentApi,
+        },
+        torrentClientApi: {
+            ...initialState.torrentClientApi,
+            ...appState?.torrentClientApi,
+        },
+    };
+};
+
+export const subscribeListener = (reduxStore: any) => {
+    const state = reduxStore.getState();
+    localStorage.setItem('RASPI_STATE', JSON.stringify(state));
+};
+
+export default createInitialState();
