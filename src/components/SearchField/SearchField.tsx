@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useRef } from 'react';
 import { TextField } from '@material-ui/core';
-import { useRef } from 'react';
+import { inputStyles } from '../Common/InputStyles';
+import classNames from 'classnames';
 
 interface SearchFieldProps {
     name: string;
@@ -9,6 +10,7 @@ interface SearchFieldProps {
 }
 
 export const SearchField = (props: SearchFieldProps) => {
+    const classes = inputStyles();
     const ref = useRef<number>(-1);
 
     const onDelayComplete = (value: string) => props.handleChange(value);
@@ -19,12 +21,12 @@ export const SearchField = (props: SearchFieldProps) => {
         ref.current = window.setTimeout(() => onDelayComplete(value), 1000);
     };
 
-    return (<TextField
-        name={props.name}
-        label={props.label}
-        variant={'outlined'}
-        onChange={onChange}
-        style={{ margin: '8px' }}
-        fullWidth
-    />);
+    return (
+        <TextField
+            className={classNames(classes.root, classes.growProportional)}
+            name={props.name}
+            label={props.label}
+            variant={'outlined'}
+            onChange={onChange}
+        />);
 };

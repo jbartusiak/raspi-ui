@@ -27,7 +27,7 @@ const serviceName = 'Torrent Backend Service';
 export const TorrentClientPage = () => {
     const dispatch = useDispatch();
     const { torrentClientApi, services } = useSelector((state: IApplicationState) => state);
-    const backendConfig = services[serviceName]?.configuration as {
+    const backendConfig = services[serviceName].configuration as {
         categories: string[];
         directories: string[];
     }

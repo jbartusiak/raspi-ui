@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import { Button, createStyles, InputAdornment, TextField, Theme } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
+
+import { makeStyles } from '@material-ui/core/styles';
+import { Torrent } from 'torrent-search-api';
+import { inputStyles } from '../Common/InputStyles';
+import { SelectField } from '../SelectField/SelectField';
+
+type ITorrentDetailsFormProps = {
+    magnet: string;
+    torrent: Torrent;
+    directories: string[];
+    categories: string[];
+};
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        form: {
+            display: 'flex',
+            flexDirection: 'column'
+
+        },
+        button: {
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2),
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            minWidth: '100px',
+            maxWidth: '150px'
+        }
+    })
+);
+
+export const TorrentDetailsForm = ({ directories, categories, torrent, magnet }: ITorrentDetailsFormProps) => {
+    const classes = { ...useStyles(), ...inputStyles() };
+    const [form, setForm] = useState({
+        magnet,
+        directory: directories[0],
+        category: categories[0]
+    });
+
+    const onSubmit = (event: React.FormEvent) => {
+        console.log(event);
+    };
+
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setForm({
+            ...form,
+            [event.target.name]: event.target.value
+        });
+
+    return (
+        <form className={classes.form} onSubmit={onSubmit}>
+            <TextField
+                name="magnet"
+                variant="outlined"
+                label="magnet"
+                disabled={!!magnet}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="start">
+                            <GetAppIcon/>
+                        </InputAdornment>
+                    )
+                }}
+                className={classes.root}
+                value={magnet}
+                onChange={onChange}
+            />
+            <TextField
+                className={classes.root}
+                variant="outlined"
+                value={torrent.title}
+                label="Item title"
+                disabled/>
+            <TextField
+                className={classes.root}
+                variant="outlined"
+                value={torrent.size}
+                label="Approximate size"
+                disabled/>
+            <SelectField
+                label="directory"
+                selected={form.directory}
+                options={directories ? directories : ['hd1']}
+                handleChange={onChange}
+                fullWidth
+            />
+            <SelectField
+                label="category"
+                selected={form.category}
+                options={categories ? categories : ['Others']}
+                handleChange={onChange}
+                fullWidth/>
+            <Button className={classes.button} variant="contained" color="primary">OK</Button>
+        </form>
+    );
+};

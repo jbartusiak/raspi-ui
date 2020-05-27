@@ -36,7 +36,8 @@ export const SearchContainer = () => {
         dispatch(performSearch(torrentSearchRoute, query, selected));
     };
 
-    const handleCategoryChanged = (category: string) => {
+    const handleCategoryChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const category = event.target.value;
         dispatch(updateCategory(category));
         if (query) dispatch(performSearch(torrentSearchRoute, query, category));
     };
