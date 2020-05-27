@@ -20,23 +20,31 @@ import { IApplicationState } from '../../redux/reducers/Types';
 import { getActiveTorrents } from '../../redux/actions/torrentClientApiActions';
 import { getActiveTorrents as getActiveTorrentsRoute } from '../../routes/routes';
 import { MenuContainer } from './MenuContainer/MenuContainer';
+import { AddTorrent } from './AddTorrent/AddTorrent';
+
+const serviceName = 'Torrent Backend Service';
 
 export const TorrentClientPage = () => {
     const dispatch = useDispatch();
-    const torrentClientAPI = useSelector((state: IApplicationState) => state.torrentClientApi);
+    const { torrentClientApi, services } = useSelector((state: IApplicationState) => state);
+    const backendConfig = services[serviceName]?.configuration as {
+        categories: string[];
+        directories: string[];
+    }
 
     useEffect(() => {
-        if (torrentClientAPI.torrents === null) {
+        if (torrentClientApi.torrents === null) {
             dispatch(getActiveTorrents(getActiveTorrentsRoute));
         }
-    }, [dispatch, torrentClientAPI]);
+    }, [dispatch, torrentClientApi]);
 
     return (
         <Container maxWidth={'xl'}>
+            <AddTorrent {...backendConfig} />
             <MenuContainer/>
             <StyledPaper>
                 <List>
-                    {torrentClientAPI.torrents?.map(torrent => (
+                    {torrentClientApi.torrents?.map(torrent => (
                         <ListItem button onClick={() => console.log('clicked!')}>
                             <ListItemAvatar>
                                 <Checkbox

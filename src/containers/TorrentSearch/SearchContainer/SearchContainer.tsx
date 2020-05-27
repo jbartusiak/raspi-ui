@@ -12,8 +12,10 @@ import { StyledPaper } from '../../../components/Common/StyledPaper/StyledPaper'
 import { SearchField } from '../../../components/SearchField/SearchField';
 import { SelectField } from '../../../components/SelectField/SelectField';
 import { performSearch, updateCategory, updateQuery } from '../../../redux/actions/torrentApiActions';
-import { performSearch as torrentSearchRoute } from './../../../routes/routes';
+import { performSearch as torrentSearchRoute, getMagnet } from './../../../routes/routes';
 import { SlideInDiv } from '../../../components/AnimationComponents/SlideInDiv';
+import { useHistory } from 'react-router-dom';
+import { doPost } from '../../../redux/actions/actuatorActions';
 
 export const SearchContainer = () => {
 
@@ -23,6 +25,8 @@ export const SearchContainer = () => {
         results: state.torrentApi.results,
         query: state.torrentApi.query
     }));
+
+    const history = useHistory();
 
     const dispatch = useDispatch();
 
@@ -37,15 +41,35 @@ export const SearchContainer = () => {
         if (query) dispatch(performSearch(torrentSearchRoute, query, category));
     };
 
-    const torrentRow = (torrent: Torrent & { seeds?: number, peers?: number }) => {
+    const onTorrentResultSelected = async (index: number) => {
+        const torrent = results[index];
+        let magnet = torrent.magnet;
+        if (!magnet) {
+            console.log('Magnet does not exist on this torrent');
+            const url = `http://${getMagnet.host}:${getMagnet.port}${getMagnet.uri}`;
+            const result = await doPost(url, torrent).then(result=>result.json());
+            magnet = result.magnet;
+        }
+        history.push('/pi-tor', {
+            magnet,
+            torrent,
+        });
+    };
+
+    const torrentRow = (torrent: Torrent & { seeds?: number, peers?: number }, idx: number) => {
         const { seeds, peers } = torrent;
 
         return (
-            <TableRow key={torrent.magnet}>
+            <TableRow key={idx}>
                 <TableCell style={{ maxWidth: '300px', overflow: 'hidden' }}>
                     <Link target="_blank" href={torrent.desc}>{torrent.title}</Link>
                 </TableCell>
-                <TableCell><Link href="#"><GetAppIcon/></Link></TableCell>
+                <TableCell>
+                    <Link
+                        onClick={() => onTorrentResultSelected(idx)}>
+                        <GetAppIcon/>
+                    </Link>
+                </TableCell>
                 <TableCell>{torrent.time}</TableCell>
                 <TableCell>{torrent.size}</TableCell>
                 <TableCell>
@@ -58,7 +82,7 @@ export const SearchContainer = () => {
 
     const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-    }
+    };
 
     return (
         <StyledPaper>
@@ -70,6 +94,7 @@ export const SearchContainer = () => {
                     name={'query'}
                 />
                 <SelectField
+                    label="Categories"
                     handleChange={handleCategoryChanged}
                     options={options}
                     selected={selected}

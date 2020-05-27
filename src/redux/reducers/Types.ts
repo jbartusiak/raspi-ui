@@ -40,6 +40,7 @@ export interface IService {
     restart: string;
     dependsOn?: string;
     featureRoute?: IFeatureRoute;
+    configuration?: { [name: string]: any };
 }
 
 export interface IApplicationState {
