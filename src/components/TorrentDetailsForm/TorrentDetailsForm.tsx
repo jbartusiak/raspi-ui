@@ -41,6 +41,7 @@ export const TorrentDetailsForm = ({ directories, categories, torrent, magnet }:
     });
 
     const onSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
         console.log(event);
     };
 
@@ -92,7 +93,7 @@ export const TorrentDetailsForm = ({ directories, categories, torrent, magnet }:
                 options={categories ? categories : ['Others']}
                 handleChange={onChange}
                 fullWidth/>
-            <Button className={classes.button} variant="contained" color="primary">OK</Button>
+            <Button type="submit" className={classes.button} variant="contained" color="primary">OK</Button>
         </form>
     );
 };
