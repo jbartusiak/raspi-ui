@@ -35,3 +35,9 @@ export const getActiveTorrents: IEndpointSpec = {
     port: '3001',
     uri: '/transmission/active',
 };
+
+export const addNewTorrent: IEndpointSpec = {
+    host: '192.168.0.254',
+    port: '3001',
+    uri: '/transmission/new',
+};

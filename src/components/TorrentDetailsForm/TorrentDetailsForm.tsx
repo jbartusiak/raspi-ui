@@ -6,12 +6,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Torrent } from 'torrent-search-api';
 import { inputStyles } from '../Common/InputStyles';
 import { SelectField } from '../SelectField/SelectField';
+import { INewTorrentForm } from '../../redux/reducers/Types';
 
 type ITorrentDetailsFormProps = {
     magnet: string;
     torrent: Torrent;
     directories: string[];
     categories: string[];
+    handleSubmit: (form: INewTorrentForm) => void;
 };
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,9 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export const TorrentDetailsForm = ({ directories, categories, torrent, magnet }: ITorrentDetailsFormProps) => {
+export const TorrentDetailsForm = ({ directories, categories, torrent, magnet, handleSubmit }: ITorrentDetailsFormProps) => {
     const classes = { ...useStyles(), ...inputStyles() };
-    const [form, setForm] = useState({
+    const [form, setForm] = useState<INewTorrentForm>({
         magnet,
         directory: directories[0],
         category: categories[0]
@@ -42,7 +44,7 @@ export const TorrentDetailsForm = ({ directories, categories, torrent, magnet }:
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log(event);
+        handleSubmit(form);
     };
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setForm({

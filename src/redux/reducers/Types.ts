@@ -106,3 +106,9 @@ export interface ISite {
     url: string;
     icon: string;
 }
+
+export interface INewTorrentForm {
+    magnet: string;
+    category: string;
+    directory: string;
+}
