@@ -15,6 +15,9 @@ const useStyles = makeStyles(() =>
         minWidth: {
             minWidth: '150px',
         },
+        alignFlexEnd: {
+            alignSelf: 'flex-end',
+        },
     })
 );
 

@@ -8,13 +8,14 @@ import { addTorrent } from '../../../redux/actions/torrentClientApiActions';
 import { addNewTorrent } from '../../../routes/routes';
 import { INewTorrentForm } from '../../../redux/reducers/Types';
 
-interface Props {
+interface AddTorrentProps {
     directories: string[];
     categories: string[];
 }
-export const AddTorrent = (props: Props) => {
-    const history = useHistory();
+
+export const AddTorrent = (props: AddTorrentProps) => {
     const { state } = useLocation<{ magnet: string, torrent: Torrent }>();
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const handleClose = () => {

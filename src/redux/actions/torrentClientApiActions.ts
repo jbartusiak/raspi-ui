@@ -37,14 +37,14 @@ export const getActiveTorrents = ({ host, port, uri }: IEndpointSpec) => {
 
 export const addTorrent = (
     { uri, host, port }: IEndpointSpec,
-    { magnet, category, directory }: INewTorrentForm
+    { autostart, magnet, category, directory }: INewTorrentForm
 ) => {
     return (dispatch: Function) => {
         dispatch(beginApiCall('ADD_NEW_TORRENT'));
         const url = `http://${host}:${port}${uri}`;
         const requestBody = {
             magnet,
-            autostart: false,
+            autostart,
             downloadDir: `/mount/${directory}/Media/${category}`,
         };
         doPost(url, requestBody)

@@ -111,4 +111,5 @@ export interface INewTorrentForm {
     magnet: string;
     category: string;
     directory: string;
+    autostart: boolean;
 }
