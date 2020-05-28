@@ -73,7 +73,8 @@ export interface ITorrentClientAPITorrentItem {
 }
 
 export interface ITorrentClientAPI {
-    torrents: ITorrentClientAPITorrentItem[] | null;
+    torrents: ITorrentClientAPITorrentItem[];
+    fetched: boolean;
 }
 
 export interface ITorrentProvider {

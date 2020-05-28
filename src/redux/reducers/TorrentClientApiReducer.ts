@@ -14,6 +14,7 @@ export const torrentClientApiReducer = (
         };
         return {
             ...state,
+            fetched: true,
             torrents,
         };
     }

@@ -33,7 +33,8 @@ const initialState: IApplicationState = {
         results: [],
     },
     torrentClientApi: {
-        torrents: null,
+        torrents: [],
+        fetched: false,
     },
 };
 
