@@ -61,6 +61,7 @@ export interface IApplicationState {
 
 export interface ITorrentClientAPITorrentItem {
     downloadDir: string;
+    downloadedEver: number;
     eta: number;
     id: number;
     name: string;
