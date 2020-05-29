@@ -8,9 +8,10 @@ import { TorrentIcon } from './TorrentIcon';
 interface ITorrentItemProps {
     torrent: ITorrentClientAPITorrentItem
     handleClick: (event: React.MouseEvent<HTMLElement>) => void;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const TorrentItem = ({ handleClick, torrent }: ITorrentItemProps) => {
+export const TorrentItem = ({ handleChange, handleClick, torrent }: ITorrentItemProps) => {
 
     const normalize = () => torrent.downloadedEver > 0 ? (torrent.downloadedEver / torrent.totalSize) * 100 : 0;
 
@@ -20,7 +21,10 @@ export const TorrentItem = ({ handleClick, torrent }: ITorrentItemProps) => {
 
     return (
         <ListItem button onClick={onClick} >
-            <TorrentIcon dir={torrent.downloadDir} id={torrent.id} />
+            <TorrentIcon
+                onChange={handleChange}
+                dir={torrent.downloadDir}
+                id={torrent.id} />
             <ListItemText
                 primary={torrent.name}
                 secondary={

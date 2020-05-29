@@ -9,6 +9,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 interface TorrentIconProps {
     id: number;
     dir: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -37,7 +38,7 @@ const getIconBasedOnTorrentPath = (directory: string) => {
     else return <MoreHorizIcon />
 }
 
-export const TorrentIcon = ({ dir, id }: TorrentIconProps) => {
+export const TorrentIcon = ({ dir, id, onChange }: TorrentIconProps) => {
     const classes = useStyles();
 
     const getChecked = () => {
@@ -59,8 +60,9 @@ export const TorrentIcon = ({ dir, id }: TorrentIconProps) => {
     return (
         <ListItemAvatar style={{marginRight: '16px', marginLeft: '0px'}}>
             <Checkbox
-                id={`checkbox-${id}`}
+                id={`torrent-${id}`}
                 icon={getUnchecked()}
+                onChange={onChange}
                 checkedIcon={getChecked()}
             />
         </ListItemAvatar>

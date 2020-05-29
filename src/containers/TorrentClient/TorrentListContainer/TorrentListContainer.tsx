@@ -9,7 +9,12 @@ interface ITorrentListContainerProps {
 
 export const TorrentListContainer = ({ torrents }: ITorrentListContainerProps) => {
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        console.log(event);
     };
+
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(`${event.target.id}: ${event.target.checked}`)
+    }
 
     return (
         <Paper>
@@ -17,6 +22,7 @@ export const TorrentListContainer = ({ torrents }: ITorrentListContainerProps) =
                 {
                     torrents.map(torrent => (
                         <TorrentItem
+                            handleChange={onChange}
                             handleClick={handleClick}
                             torrent={torrent}
                         />)
