@@ -1,18 +1,9 @@
 import React from 'react';
 import { ITorrentClientAPITorrentItem } from '../../redux/reducers/Types';
-import {
-    Avatar,
-    Checkbox,
-    IconButton,
-    LinearProgress,
-    ListItem,
-    ListItemAvatar,
-    ListItemSecondaryAction,
-    ListItemText
-} from '@material-ui/core';
-import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import { IconButton, LinearProgress, ListItem, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { TorrentDownloadStatus } from './TorrentDownloadStatus';
+import { TorrentIcon } from './TorrentIcon';
 
 interface ITorrentItemProps {
     torrent: ITorrentClientAPITorrentItem
@@ -28,22 +19,8 @@ export const TorrentItem = ({ handleClick, torrent }: ITorrentItemProps) => {
     }
 
     return (
-        <ListItem button onClick={onClick}>
-            <ListItemAvatar style={{marginRight: '8px', marginLeft: '8px'}}>
-                <Checkbox
-                    id={`checkbox-${torrent.id}`}
-                    icon={(
-                        <Avatar style={{ backgroundColor: '#C51A4A', color: '#FFF' }}>
-                            <MusicNoteIcon/>
-                        </Avatar>
-                    )}
-                    checkedIcon={(
-                        <Avatar style={{ backgroundColor: '#6CC04A', color: '#FFF' }}>
-                            <MusicNoteIcon/>
-                        </Avatar>
-                    )}
-                />
-            </ListItemAvatar>
+        <ListItem button onClick={onClick} >
+            <TorrentIcon dir={torrent.downloadDir} id={torrent.id} />
             <ListItemText
                 primary={torrent.name}
                 secondary={
