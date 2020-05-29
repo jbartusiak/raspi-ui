@@ -29,7 +29,7 @@ export const TorrentItem = ({ handleClick, torrent }: ITorrentItemProps) => {
 
     return (
         <ListItem button onClick={onClick}>
-            <ListItemAvatar>
+            <ListItemAvatar style={{marginRight: '8px', marginLeft: '8px'}}>
                 <Checkbox
                     id={`checkbox-${torrent.id}`}
                     icon={(
@@ -53,7 +53,10 @@ export const TorrentItem = ({ handleClick, torrent }: ITorrentItemProps) => {
                         <TorrentDownloadStatus
                             progress={torrent.downloadedEver}
                             status={torrent.status}
-                            total={torrent.totalSize} />
+                            total={torrent.totalSize}
+                            peers={torrent.peersConnected}
+                            seeds={torrent.peersSendingToUs}
+                        />
                     </>
                 }
             />

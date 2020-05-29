@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Container } from '@material-ui/core';
-import { StyledPaper } from '../../components/Common/StyledPaper/StyledPaper';
 import { useDispatch, useSelector } from 'react-redux';
 import { IApplicationState } from '../../redux/reducers/Types';
 import { getActiveTorrents } from '../../redux/actions/torrentClientApiActions';
@@ -18,7 +17,7 @@ export const TorrentClientPage = () => {
     const backendConfig = services[serviceName].configuration as {
         categories: string[];
         directories: string[];
-    }
+    };
 
     useEffect(() => {
         if (!torrentClientApi.fetched) {
@@ -30,9 +29,8 @@ export const TorrentClientPage = () => {
         <Container maxWidth={'xl'}>
             <AddTorrent {...backendConfig} />
             <MenuContainer/>
-            <StyledPaper>
-                <TorrentListContainer torrents={torrentClientApi.torrents} />
-            </StyledPaper>
+
+            <TorrentListContainer torrents={torrentClientApi.torrents}/>
         </Container>
     );
 };

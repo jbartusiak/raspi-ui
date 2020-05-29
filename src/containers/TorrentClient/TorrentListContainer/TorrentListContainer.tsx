@@ -1,5 +1,5 @@
 import React from 'react';
-import { List } from '@material-ui/core';
+import { List, Paper } from '@material-ui/core';
 import { ITorrentClientAPITorrentItem } from '../../../redux/reducers/Types';
 import { TorrentItem } from '../../../components/TorrentItem/TorrentItem';
 
@@ -12,15 +12,17 @@ export const TorrentListContainer = ({ torrents }: ITorrentListContainerProps) =
     };
 
     return (
-        <List>
-            {
-                torrents.map(torrent => (
-                    <TorrentItem
-                        handleClick={handleClick}
-                        torrent={torrent}
-                    />)
-                )
-            }
-        </List>
+        <Paper>
+            <List>
+                {
+                    torrents.map(torrent => (
+                        <TorrentItem
+                            handleClick={handleClick}
+                            torrent={torrent}
+                        />)
+                    )
+                }
+            </List>
+        </Paper>
     );
 };

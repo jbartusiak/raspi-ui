@@ -5,12 +5,43 @@
   height: 1rem;
   overflow-y: hidden;
   line-height: 1rem;
-  * {
-    animation: horizontalMarquee alternate 5s infinite;
+}
+
+.IndicatorInline {
+  display: flex;
+  flex-direction: row;
+}
+
+.MarqueeTwo {
+  div {
+    animation: horizontalMarqueeTwo alternate 3s infinite;
   }
 }
 
-@keyframes horizontalMarquee {
+.MarqueeThree {
+  * {
+    animation: horizontalMarqueeThree alternate 5s infinite;
+  }
+}
+
+
+@keyframes horizontalMarqueeTwo {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-1rem)
+  }
+  100% {
+    transform: translateY(-1rem)
+  }
+}
+
+
+@keyframes horizontalMarqueeThree {
   0% {
     transform: translateY(0);
   }
