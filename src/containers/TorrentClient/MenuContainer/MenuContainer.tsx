@@ -46,6 +46,7 @@ interface MenuProperties {
     onChecked?: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 
     checked?: boolean;
+    selected: boolean[];
 }
 
 export const MenuContainer = (props: MenuProperties) => {
@@ -55,14 +56,14 @@ export const MenuContainer = (props: MenuProperties) => {
             <Toolbar>
                 <Checkbox
                     onChange={props.onChecked}
-                    checked={props.checked}
+                    checked={props.selected.every(el => el)}
                     icon={(
                         <IconButton edge="start">
                             <CheckCircleOutlineIcon/>
                         </IconButton>
                     )}
                     checkedIcon={(
-                        <IconButton edge="start" color="primary">
+                        <IconButton edge="start" color="secondary">
                             <CheckCircleIcon/>
                         </IconButton>
                     )}

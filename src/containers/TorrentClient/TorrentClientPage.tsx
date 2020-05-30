@@ -23,26 +23,36 @@ export const TorrentClientPage = () => {
 
     const onSelectedChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
         const [, idxStr] = event.target.id.split('-');
-        const index = Number.parseInt(idxStr)-1;
+        const index = Number.parseInt(idxStr) - 1;
         const newArray = [...selected];
         newArray[index] = event.target.checked;
         setSelected(newArray);
         console.log(newArray);
-    }
+    };
+
+    const onAllSelectedChanged = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        if (evt.target.checked) {
+            setSelected(new Array(torrentClientApi.torrents.length).fill(true));
+        } else {
+            setSelected(new Array(torrentClientApi.torrents.length).fill(false));
+        }
+    };
 
     useEffect(() => {
         if (!torrentClientApi.fetched) {
             dispatch(getActiveTorrents(getActiveTorrentsRoute));
-        }
-        else if (torrentClientApi.torrents.length !== selected.length) {
-            setSelected(new Array(torrentClientApi.torrents.length).fill(false))
+        } else if (torrentClientApi.torrents.length !== selected.length) {
+            setSelected(new Array(torrentClientApi.torrents.length).fill(false));
         }
     }, [dispatch, torrentClientApi, selected]);
 
     return (
         <Container maxWidth={'xl'}>
             <AddTorrent {...backendConfig} />
-            <MenuContainer/>
+            <MenuContainer
+                onChecked={onAllSelectedChanged}
+                selected={selected}
+            />
 
             <FadeDiv shouldDisplay={true}>
                 {
