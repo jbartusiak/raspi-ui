@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { IApplicationState } from '../../redux/reducers/Types';
@@ -16,6 +16,7 @@ const serviceName = 'Torrent Backend Service';
 export const TorrentClientPage = () => {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState<boolean[]>([]);
+    const intervalRef = useRef(-1);
     const { torrentClientApi, services } = useSelector((state: IApplicationState) => state);
     const backendConfig = services[serviceName].configuration as {
         categories: string[];
@@ -23,11 +24,10 @@ export const TorrentClientPage = () => {
     };
 
     const getCheckedTorrentsIds = () => {
-        const result = selected.map((el, idx) => {
+        return selected.map((el, idx) => {
             if (el) return torrentClientApi.torrents[idx].id;
             else return null;
         }).filter(el=>!!el);
-        console.log(result);
     };
 
     const onSelectedChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,6 +78,15 @@ export const TorrentClientPage = () => {
             setSelected(new Array(torrentClientApi.torrents.length).fill(false));
         }
     }, [dispatch, torrentClientApi, selected]);
+
+    useEffect(() => {
+        if (torrentClientApi.torrents.some(torrent=>torrent.status!==0)) {
+            window.clearInterval(intervalRef.current);
+            intervalRef.current = window.setInterval(() => {
+                dispatch(getActiveTorrents(getActiveTorrentsRoute));
+            }, 5000);
+        }
+    }, [dispatch, intervalRef, torrentClientApi.torrents])
 
     return (
         <Container maxWidth={'xl'}>
