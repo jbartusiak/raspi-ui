@@ -8,7 +8,6 @@ export const torrentClientApiReducer = (
     action: AnyAction
 ) => {
     if (action.type === UPDATE_ACTIVE_TORRENT_SUCCESS) {
-        console.log(action);
         const { torrents } = action as AnyAction & {
             torrents: ITorrentClientAPITorrentItem[];
         };

@@ -1,10 +1,13 @@
-import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { IApplicationState } from '../../redux/reducers/Types';
-import { getActiveTorrents } from '../../redux/actions/torrentClientApiActions';
-import { getActiveTorrents as getActiveTorrentsRoute } from '../../routes/routes';
+import { getActiveTorrents, startTorrents, stopTorrents } from '../../redux/actions/torrentClientApiActions';
+import {
+    getActiveTorrents as getActiveTorrentsRoute,
+    startTorrents as startTorrentsRoute,
+    stopTorrents as stopTorrentsRoute,
+} from '../../routes/routes';
 import { MenuContainer } from './MenuContainer/MenuContainer';
 import { AddTorrent } from './AddTorrent/AddTorrent';
 import { TorrentListContainer } from './TorrentListContainer/TorrentListContainer';
@@ -26,7 +29,7 @@ export const TorrentClientPage = () => {
     const getCheckedTorrentsIds = () => {
         return selected.map((el, idx) => {
             if (el) return torrentClientApi.torrents[idx].id;
-            else return null;
+            return null;
         }).filter(el=>!!el);
     };
 
@@ -49,17 +52,18 @@ export const TorrentClientPage = () => {
 
     const onIconClicked = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
         console.log(currentTarget);
+        const checkedTorrentsIds = getCheckedTorrentsIds() as number[];
         switch (currentTarget.id) {
             case EButtonIds.PLAY: {
-                console.log(getCheckedTorrentsIds());
+                dispatch(startTorrents(startTorrentsRoute, checkedTorrentsIds));
                 break;
             }
             case EButtonIds.PAUSE: {
-
+                dispatch(stopTorrents(stopTorrentsRoute, checkedTorrentsIds));
                 break;
             }
             case EButtonIds.STOP: {
-
+                dispatch(stopTorrents(stopTorrentsRoute, checkedTorrentsIds));
                 break;
             }
             case EButtonIds.DELETE: {
