@@ -9,6 +9,7 @@ import { MenuContainer } from './MenuContainer/MenuContainer';
 import { AddTorrent } from './AddTorrent/AddTorrent';
 import { TorrentListContainer } from './TorrentListContainer/TorrentListContainer';
 import { FadeDiv } from '../../components/AnimationComponents/FadeDiv';
+import { EButtonIds } from '../../components/TorrentControls/TorrentControls';
 
 const serviceName = 'Torrent Backend Service';
 
@@ -19,6 +20,14 @@ export const TorrentClientPage = () => {
     const backendConfig = services[serviceName].configuration as {
         categories: string[];
         directories: string[];
+    };
+
+    const getCheckedTorrentsIds = () => {
+        const result = selected.map((el, idx) => {
+            if (el) return torrentClientApi.torrents[idx].id;
+            else return null;
+        }).filter(el=>!!el);
+        console.log(result);
     };
 
     const onSelectedChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +47,30 @@ export const TorrentClientPage = () => {
         }
     };
 
+    const onIconClicked = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
+        console.log(currentTarget);
+        switch (currentTarget.id) {
+            case EButtonIds.PLAY: {
+                console.log(getCheckedTorrentsIds());
+                break;
+            }
+            case EButtonIds.PAUSE: {
+
+                break;
+            }
+            case EButtonIds.STOP: {
+
+                break;
+            }
+            case EButtonIds.DELETE: {
+
+                break;
+            }
+            default:
+                console.error(`Handler for ${currentTarget.id} not found!`);
+        }
+    };
+
     useEffect(() => {
         if (!torrentClientApi.fetched) {
             dispatch(getActiveTorrents(getActiveTorrentsRoute));
@@ -50,8 +83,13 @@ export const TorrentClientPage = () => {
         <Container maxWidth={'xl'}>
             <AddTorrent {...backendConfig} />
             <MenuContainer
-                onChecked={onAllSelectedChanged}
+                handleChecked={onAllSelectedChanged}
                 selected={selected}
+                handleAdd={onIconClicked}
+                handlePause={onIconClicked}
+                handleStop={onIconClicked}
+                handleDelete={onIconClicked}
+                handleStart={onIconClicked}
             />
 
             <FadeDiv shouldDisplay={true}>
