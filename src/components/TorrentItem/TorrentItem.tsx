@@ -6,12 +6,13 @@ import { TorrentDownloadStatus } from './TorrentDownloadStatus';
 import { TorrentIcon } from './TorrentIcon';
 
 interface ITorrentItemProps {
-    torrent: ITorrentClientAPITorrentItem
+    torrent: ITorrentClientAPITorrentItem;
+    selected: boolean;
     handleClick: (event: React.MouseEvent<HTMLElement>) => void;
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const TorrentItem = ({ handleChange, handleClick, torrent }: ITorrentItemProps) => {
+export const TorrentItem = ({ handleChange, handleClick, selected, torrent }: ITorrentItemProps) => {
 
     const normalize = () => torrent.downloadedEver > 0 ? (torrent.downloadedEver / torrent.totalSize) * 100 : 0;
 
@@ -22,9 +23,10 @@ export const TorrentItem = ({ handleChange, handleClick, torrent }: ITorrentItem
     return (
         <ListItem button onClick={onClick} >
             <TorrentIcon
+                selected={selected}
                 onChange={handleChange}
                 dir={torrent.downloadDir}
-                id={torrent.id} />
+                id={torrent.id}/>
             <ListItemText
                 primary={torrent.name}
                 secondary={

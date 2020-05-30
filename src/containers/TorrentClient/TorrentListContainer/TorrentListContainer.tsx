@@ -4,25 +4,24 @@ import { ITorrentClientAPITorrentItem } from '../../../redux/reducers/Types';
 import { TorrentItem } from '../../../components/TorrentItem/TorrentItem';
 
 interface ITorrentListContainerProps {
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     torrents: ITorrentClientAPITorrentItem[];
+    selected: boolean[];
 }
 
-export const TorrentListContainer = ({ torrents }: ITorrentListContainerProps) => {
+export const TorrentListContainer = ({  handleChange, torrents, selected }: ITorrentListContainerProps) => {
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         console.log(event);
     };
-
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(`${event.target.id}: ${event.target.checked}`)
-    }
 
     return (
         <Paper>
             <List>
                 {
-                    torrents.map(torrent => (
+                    torrents.map((torrent, id) => (
                         <TorrentItem
-                            handleChange={onChange}
+                            selected={selected[id]}
+                            handleChange={handleChange}
                             handleClick={handleClick}
                             torrent={torrent}
                         />)
