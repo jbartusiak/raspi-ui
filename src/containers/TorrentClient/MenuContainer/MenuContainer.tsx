@@ -1,8 +1,7 @@
 import React from 'react';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import AddIcon from '@material-ui/icons/Add';
-import { Checkbox, createStyles, Divider, Fab, IconButton, Paper, Theme, Toolbar } from '@material-ui/core';
+import { Checkbox, createStyles, Divider, IconButton, Paper, Theme, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TorrentControls } from '../../../components/TorrentControls/TorrentControls';
 
@@ -12,12 +11,6 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: theme.spacing(1),
             marginRight: theme.spacing(1)
         },
-        fab: {
-            position: 'fixed',
-            bottom: '40px',
-            right: '40px',
-            zIndex: 999
-        }
     })
 );
 
@@ -61,9 +54,6 @@ export const MenuContainer = (props: MenuProperties) => {
                     onDelete={props.handleDelete}
                     controlsDisabled={noItemsSelected}/>
             </Toolbar>
-            <Fab color="secondary" aria-label="add" className={classes.fab}>
-                <AddIcon/>
-            </Fab>
         </Paper>
     );
 };

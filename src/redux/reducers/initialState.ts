@@ -51,7 +51,7 @@ const createInitialState = () => {
         },
         torrentApi: {
             ...initialState.torrentApi,
-            ...appState?.torrentApi,
+            ...appState.torrentApi,
         },
         torrentClientApi: {
             ...initialState.torrentClientApi,
