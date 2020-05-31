@@ -51,6 +51,12 @@ export const stopTorrents: IEndpointSpec = {
     uri: '/transmission/stop',
 };
 
+export const deleteTorrents: IEndpointSpec = {
+    host,
+    port,
+    uri: '/transmission/remove',
+};
+
 export const addNewTorrent: IEndpointSpec = {
     host,
     port,

@@ -1,24 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { IApplicationState } from '../../redux/reducers/Types';
-import { getActiveTorrents, startTorrents, stopTorrents } from '../../redux/actions/torrentClientApiActions';
+import { IApplicationState, ITorrentClientAPITorrentItem } from '../../redux/reducers/Types';
+import {
+    deleteTorrents,
+    getActiveTorrents,
+    startTorrents,
+    stopTorrents
+} from '../../redux/actions/torrentClientApiActions';
 import {
     getActiveTorrents as getActiveTorrentsRoute,
     startTorrents as startTorrentsRoute,
-    stopTorrents as stopTorrentsRoute
+    stopTorrents as stopTorrentsRoute,
+    deleteTorrents as deleteTorrentsRoute,
 } from '../../routes/routes';
 import { MenuContainer } from './MenuContainer/MenuContainer';
 import { AddTorrent } from './AddTorrent/AddTorrent';
 import { TorrentListContainer } from './TorrentListContainer/TorrentListContainer';
 import { FadeDiv } from '../../components/AnimationComponents/FadeDiv';
 import { EButtonIds } from '../../components/TorrentControls/TorrentControls';
+import { TorrentDeleteDialog } from '../../components/TorrentControls/TorrentDeleteDialog';
 
 const serviceName = 'Torrent Backend Service';
 
 export const TorrentClientPage = () => {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState<{ [id: number]: boolean }>({});
+    const [dialog, setDialog] = useState<{open: boolean, torrentsToDelete: ITorrentClientAPITorrentItem[]}>({
+        open: false,
+        torrentsToDelete: [],
+    });
     const intervalRef = useRef(new Set<number>());
     const { torrentClientApi, services } = useSelector((state: IApplicationState) => state);
     const backendConfig = services[serviceName].configuration as {
@@ -39,7 +50,6 @@ export const TorrentClientPage = () => {
             [index]: event.target.checked
         };
         setSelected(newSelected);
-        console.log(newSelected);
     };
 
     const onAllSelectedChanged = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +59,22 @@ export const TorrentClientPage = () => {
         });
         setSelected(newSelected);
     };
+
+    const onCancelClicked = () => {
+        setDialog({
+            ...dialog,
+            open: false,
+        })
+    }
+
+    const onDeleteConfirm = (deleteData: boolean) => {
+        setDialog({
+            ...dialog,
+            open: false,
+        });
+        const ids = getCheckedTorrentsIds();
+        dispatch(deleteTorrents(deleteTorrentsRoute, ids, deleteData));
+    }
 
     const onIconClicked = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
         console.log(currentTarget);
@@ -67,7 +93,11 @@ export const TorrentClientPage = () => {
                 break;
             }
             case EButtonIds.DELETE: {
-
+                const torrentsToDelete = torrentClientApi.torrents.filter(torrent=>Object.keys(selected).includes(`${torrent.id}`));
+                setDialog({
+                    open: true,
+                    torrentsToDelete,
+                });
                 break;
             }
             default:
@@ -111,14 +141,18 @@ export const TorrentClientPage = () => {
 
             <FadeDiv shouldDisplay={true}>
                 {
-                    torrentClientApi.torrents.length &&
-                    Object.entries(selected).length &&
+                    !!torrentClientApi.torrents.length &&
+                    !!Object.entries(selected).length &&
                     <TorrentListContainer
                         selected={selected}
                         handleChange={onSelectedChanged}
                         torrents={torrentClientApi.torrents}/>
                 }
             </FadeDiv>
+            <TorrentDeleteDialog
+                handleCancel={onCancelClicked}
+                handleDeleteConfirmation={onDeleteConfirm}
+                {...dialog} />
         </Container>
     );
 };

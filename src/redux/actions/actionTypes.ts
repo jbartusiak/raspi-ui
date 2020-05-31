@@ -25,6 +25,7 @@ export const UPDATE_ACTIVE_TORRENT_SUCCESS = 'UPDATE_ACTIVE_TORRENT_SUCCESS';
 export const ADD_TORRENT_SUCCESS = 'ADD_TORRENT_SUCCESS';
 export const START_TORRENT_SUCCESS = 'START_TORRENT_SUCCESS';
 export const STOP_TORRENT_SUCCESS = 'STOP_TORRENT_SUCCESS';
+export const DELETE_TORRENT_SUCCESS = 'DELETE_TORRENT_SUCCESS';
 
 export interface IRoutingAction extends AnyAction {
     location: string;

@@ -6,6 +6,7 @@ import {
 import { handleError } from './torrentApiActions';
 import {
     ADD_TORRENT_SUCCESS,
+    DELETE_TORRENT_SUCCESS,
     START_TORRENT_SUCCESS,
     STOP_TORRENT_SUCCESS,
     UPDATE_ACTIVE_TORRENT_SUCCESS,
@@ -29,6 +30,10 @@ const startTorrentsSuccess = () => ({
 
 const stopTorrentsSuccess = () => ({
     type: STOP_TORRENT_SUCCESS,
+});
+
+const deleteTorrentsSuccess = () => ({
+    type: DELETE_TORRENT_SUCCESS,
 });
 
 export const getActiveTorrents = ({ host, port, uri }: IEndpointSpec) => {
@@ -99,6 +104,28 @@ export const stopTorrents = (
             .then(result => result.json())
             .then(() => {
                 dispatch(stopTorrentsSuccess());
+                dispatch(getActiveTorrents(getActiveTorrentsRoute));
+            })
+            .catch(err => handleError(dispatch, err));
+    };
+};
+
+export const deleteTorrents = (
+    { uri, host, port }: IEndpointSpec,
+    ids: number[],
+    deleteLocalData: boolean
+) => {
+    return (dispatch: Function) => {
+        dispatch(beginApiCall('DELETE_TORRENTS'));
+        const url = `http://${host}:${port}${uri}`;
+        const requestBody = {
+            ids,
+            deleteLocalData,
+        };
+        doPost(url, requestBody)
+            .then(result => result.json())
+            .then(() => {
+                dispatch(deleteTorrentsSuccess());
                 dispatch(getActiveTorrents(getActiveTorrentsRoute));
             })
             .catch(err => handleError(dispatch, err));
