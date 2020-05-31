@@ -26,7 +26,8 @@ export const TorrentItem = ({ handleChange, handleClick, selected, torrent }: IT
                 selected={selected}
                 onChange={handleChange}
                 dir={torrent.downloadDir}
-                id={torrent.id}/>
+                id={torrent.id}
+                torrentStatus={torrent.status}/>
             <ListItemText
                 primary={torrent.name}
                 secondary={

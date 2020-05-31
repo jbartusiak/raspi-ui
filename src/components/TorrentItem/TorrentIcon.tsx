@@ -5,12 +5,15 @@ import MovieIcon from '@material-ui/icons/Movie';
 import TvIcon from '@material-ui/icons/Tv';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import scss from './TorrentDownloadStatus.module.scss';
+import classNames from 'classnames';
 
 interface TorrentIconProps {
     id: number;
     dir: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     selected: boolean;
+    torrentStatus: number;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.contrastText
         },
+        border: {
+            border: '1px solid black',
+        }
     })
 );
 
@@ -39,7 +45,7 @@ const getIconBasedOnTorrentPath = (directory: string) => {
     else return <MoreHorizIcon />
 }
 
-export const TorrentIcon = ({ dir, id, onChange, selected }: TorrentIconProps) => {
+export const TorrentIcon = ({ dir, id, onChange, selected, torrentStatus }: TorrentIconProps) => {
     const classes = useStyles();
 
     const getChecked = () => {
@@ -59,7 +65,11 @@ export const TorrentIcon = ({ dir, id, onChange, selected }: TorrentIconProps) =
     }
 
     return (
-        <ListItemAvatar style={{marginRight: '16px', marginLeft: '0px'}}>
+        <ListItemAvatar style={{marginRight: '16px', marginLeft: '0px'}} >
+            <div className={classNames({
+                [scss.Bounce]: [1,2,3,4].includes(torrentStatus),
+                [scss.Selected]: [1,2,3,4].includes(torrentStatus) && selected,
+            })}>
             <Checkbox
                 id={`torrent-${id}`}
                 icon={getUnchecked()}
@@ -67,6 +77,7 @@ export const TorrentIcon = ({ dir, id, onChange, selected }: TorrentIconProps) =
                 checkedIcon={getChecked()}
                 checked={selected}
             />
+            </div>
         </ListItemAvatar>
     )
 };
