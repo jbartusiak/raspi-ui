@@ -35,7 +35,9 @@ export const Actuator: React.FC<IActuatorProps> = ({ service, isApiCallInProgres
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Controls {...{ isApiCallInProgress, status, onControlButtonClick }}/>
-                    <RouteLink {...service} />
+                    {service.featureRoutes?.map(featureRoute=> (
+                        <RouteLink route={featureRoute.route} name={featureRoute.name} />
+                    ))}
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </SlideInDiv>

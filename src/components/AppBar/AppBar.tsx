@@ -17,9 +17,8 @@ export const ApplicationBar = () => {
     ));
 
     const singleFeatureRoute = (service: IService) => {
-        if (service.featureRoute) {
-            const { name, route } = service.featureRoute;
-            return (
+        if (service.featureRoutes) {
+            return service.featureRoutes.map(({ name, route }) => (
                 <Link
                     className={styles.SingleLink}
                     color="inherit"
@@ -28,7 +27,7 @@ export const ApplicationBar = () => {
                 >
                     {name}
                 </Link>
-            );
+            ));
         } else return null;
     };
     const featureRoutes = () => Object.values(services).map(singleFeatureRoute);

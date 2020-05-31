@@ -1,17 +1,17 @@
-import * as React from 'react';
+import React from 'react';
 import { Button } from '@material-ui/core';
-import { IService } from '../../redux/reducers/Types';
 import { Link } from 'react-router-dom';
 import styles from './Actuator.module.scss';
 
-export const RouteLink = ({ featureRoute }: IService) => {
-    if (!featureRoute) return null;
+interface RouteLinkProps {
+    route: string;
+    name: string;
+}
 
-    return (
-        <Link to={featureRoute.route} className={styles.RouteLink}>
-            <Button variant="outlined" color="primary">
-                {featureRoute.name}
-            </Button>
-        </Link>
-    );
-};
+export const RouteLink: React.FC<RouteLinkProps> = ({ name, route }) => (
+    <Link to={route} className={styles.RouteLink}>
+        <Button variant="outlined" color="primary">
+            {name}
+        </Button>
+    </Link>
+);

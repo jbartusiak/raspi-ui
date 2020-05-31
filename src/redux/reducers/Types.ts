@@ -39,7 +39,7 @@ export interface IService {
     stop: string;
     restart: string;
     dependsOn?: string;
-    featureRoute?: IFeatureRoute;
+    featureRoutes?: IFeatureRoute[];
     configuration?: { [name: string]: any };
 }
 
