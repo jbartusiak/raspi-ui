@@ -1,0 +1,56 @@
+.RaspiLoader {
+  position: absolute;
+  height: 250px;
+  width: 250px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #FFF;
+  border-radius: 100%;
+  z-index: 999;
+
+  img {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    position: relative;
+    height:70%;
+    width: 70%;
+  }
+}
+
+.Spinner {
+  border-radius: 100%;
+  border-bottom: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  height: 100%;
+  width: 100%;
+
+  &:after {
+    border: 10px solid;
+    border-color: #C51A4A transparent transparent transparent;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 85%;
+    width: 85%;
+    content: " ";
+    display: block;
+
+    animation: spinnerAnimation 0.75s linear infinite;
+  }
+}
+
+@keyframes spinnerAnimation {
+  0% {
+    transform: translateX(-50%) translateY(-50%) rotateX(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) rotate(360deg);
+  }
+}

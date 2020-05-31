@@ -20,6 +20,7 @@ import { TorrentListContainer } from './TorrentListContainer/TorrentListContaine
 import { FadeDiv } from '../../components/AnimationComponents/FadeDiv';
 import { EButtonIds } from '../../components/TorrentControls/TorrentControls';
 import { TorrentDeleteDialog } from '../../components/TorrentControls/TorrentDeleteDialog';
+import { RaspiLoader } from '../../components/Loader/RaspiLoader';
 
 const serviceName = 'Torrent Backend Service';
 
@@ -128,6 +129,7 @@ export const TorrentClientPage = () => {
 
     return (
         <Container maxWidth={'xl'}>
+            <RaspiLoader show={!torrentClientApi.fetched} />
             <AddTorrent {...backendConfig} />
             <MenuContainer
                 handleChecked={onAllSelectedChanged}

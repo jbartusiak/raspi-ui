@@ -7,6 +7,7 @@ import { IApplicationState, ServiceStatus } from '../../redux/reducers/Types';
 import { beginApiCall } from '../../redux/actions/apiCallActions';
 import { getServiceConfiguration } from '../../redux/actions/actuatorActions';
 import { Container } from '@material-ui/core';
+import { RaspiLoader } from '../../components/Loader/RaspiLoader';
 
 export const Homepage = () => {
     const mainServiceName = 'Raspi Backend Service';
@@ -24,6 +25,7 @@ export const Homepage = () => {
 
     return (
         <Container>
+            <RaspiLoader show={!configurationFetched}/>
             <ActuatorGroup name="Server">
                 <ActuatorContainer selector={mainServiceName}/>
             </ActuatorGroup>
