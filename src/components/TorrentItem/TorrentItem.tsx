@@ -14,7 +14,12 @@ interface ITorrentItemProps {
 
 export const TorrentItem = ({ handleChange, handleClick, selected, torrent }: ITorrentItemProps) => {
 
-    const normalize = () => torrent.downloadedEver > 0 ? (torrent.downloadedEver / torrent.totalSize) * 100 : 0;
+    const normalize = () => {
+        if (torrent.percentDone) return torrent.percentDone * 100;
+        else {
+            return torrent.downloadedEver > 0 ? (torrent.downloadedEver / torrent.totalSize) * 100 : 0;
+        }
+    };
 
     const onClick = (event: React.MouseEvent<HTMLElement>) => {
         handleClick(event);
@@ -40,6 +45,7 @@ export const TorrentItem = ({ handleChange, handleClick, selected, torrent }: IT
                             total={torrent.totalSize}
                             peers={torrent.peersConnected}
                             seeds={torrent.peersSendingToUs}
+                            percentDone={torrent.percentDone}
                         />
                     </>
                 }

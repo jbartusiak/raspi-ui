@@ -6,7 +6,7 @@ import { TorrentItem } from '../../../components/TorrentItem/TorrentItem';
 interface ITorrentListContainerProps {
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     torrents: ITorrentClientAPITorrentItem[];
-    selected: boolean[];
+    selected: { [key: number]: boolean };
 }
 
 export const TorrentListContainer = ({  handleChange, torrents, selected }: ITorrentListContainerProps) => {
@@ -18,9 +18,9 @@ export const TorrentListContainer = ({  handleChange, torrents, selected }: ITor
         <Paper>
             <List>
                 {
-                    torrents.map((torrent, id) => (
+                    torrents.map((torrent) => (
                         <TorrentItem
-                            selected={selected[id]}
+                            selected={selected[torrent.id]}
                             handleChange={handleChange}
                             handleClick={handleClick}
                             torrent={torrent}

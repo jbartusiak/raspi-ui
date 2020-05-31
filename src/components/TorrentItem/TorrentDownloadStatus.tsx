@@ -7,6 +7,7 @@ interface ITorrentDownloadStatusProps {
     progress: number;
     total: number;
     peers: number;
+    percentDone: number;
     seeds: number;
 }
 
@@ -34,7 +35,13 @@ const convert = (value: number) => {
 
 const percent = (progress: number, total: number) => Math.round((progress / total) * 100);
 
-export const TorrentDownloadStatus = ({ status, peers, progress, seeds, total }: ITorrentDownloadStatusProps) => {
+export const TorrentDownloadStatus = ({ status, peers, progress, seeds, total, percentDone }: ITorrentDownloadStatusProps) => {
+
+    if (percentDone && percentDone === 1) {
+        return (
+            <div className={classes.Container}>Downloaded - {ETransmissionTorrentStatus[status]}</div>
+        );
+    }
 
     if (progress + total === 0) {
         return (

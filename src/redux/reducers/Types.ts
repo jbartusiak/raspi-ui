@@ -65,6 +65,7 @@ export interface ITorrentClientAPITorrentItem {
     eta: number;
     id: number;
     name: string;
+    percentDone: number;
     peersConnected: number;
     peersSendingToUs: number;
     rateDownload: number;

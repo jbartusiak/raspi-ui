@@ -6,7 +6,7 @@ import { getActiveTorrents, startTorrents, stopTorrents } from '../../redux/acti
 import {
     getActiveTorrents as getActiveTorrentsRoute,
     startTorrents as startTorrentsRoute,
-    stopTorrents as stopTorrentsRoute,
+    stopTorrents as stopTorrentsRoute
 } from '../../routes/routes';
 import { MenuContainer } from './MenuContainer/MenuContainer';
 import { AddTorrent } from './AddTorrent/AddTorrent';
@@ -18,8 +18,8 @@ const serviceName = 'Torrent Backend Service';
 
 export const TorrentClientPage = () => {
     const dispatch = useDispatch();
-    const [selected, setSelected] = useState<boolean[]>([]);
-    const intervalRef = useRef(-1);
+    const [selected, setSelected] = useState<{ [id: number]: boolean }>({});
+    const intervalRef = useRef(new Set<number>());
     const { torrentClientApi, services } = useSelector((state: IApplicationState) => state);
     const backendConfig = services[serviceName].configuration as {
         categories: string[];
@@ -27,27 +27,27 @@ export const TorrentClientPage = () => {
     };
 
     const getCheckedTorrentsIds = () => {
-        return selected.map((el, idx) => {
-            if (el) return torrentClientApi.torrents[idx].id;
-            return null;
-        }).filter(el=>!!el);
+        const selectedEntries = Object.entries(selected).filter(([, value]) => value);
+        return selectedEntries.map(([id]) => Number.parseInt(id));
     };
 
     const onSelectedChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const [, idxStr] = event.target.id.split('-');
-        const index = Number.parseInt(idxStr) - 1;
-        const newArray = [...selected];
-        newArray[index] = event.target.checked;
-        setSelected(newArray);
-        console.log(newArray);
+        const [, idStr] = event.target.id.split('-');
+        const index = Number.parseInt(idStr);
+        const newSelected = {
+            ...selected,
+            [index]: event.target.checked
+        };
+        setSelected(newSelected);
+        console.log(newSelected);
     };
 
     const onAllSelectedChanged = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        if (evt.target.checked) {
-            setSelected(new Array(torrentClientApi.torrents.length).fill(true));
-        } else {
-            setSelected(new Array(torrentClientApi.torrents.length).fill(false));
-        }
+        const newSelected: { [id: number]: boolean } = {};
+        torrentClientApi.torrents.forEach(torrent => {
+            newSelected[torrent.id] = evt.target.checked;
+        });
+        setSelected(newSelected);
     };
 
     const onIconClicked = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
@@ -78,26 +78,30 @@ export const TorrentClientPage = () => {
     useEffect(() => {
         if (!torrentClientApi.fetched) {
             dispatch(getActiveTorrents(getActiveTorrentsRoute));
-        } else if (torrentClientApi.torrents.length !== selected.length) {
-            setSelected(new Array(torrentClientApi.torrents.length).fill(false));
+        } else if (torrentClientApi.torrents.length !== Object.entries(selected).length) {
+            const newSelected: { [id: number]: boolean } = {};
+            torrentClientApi.torrents.forEach(torrent => {
+                newSelected[torrent.id] = false;
+            });
+            setSelected(newSelected);
         }
     }, [dispatch, torrentClientApi, selected]);
 
     useEffect(() => {
-        if (torrentClientApi.torrents.some(torrent=>torrent.status!==0)) {
-            window.clearInterval(intervalRef.current);
-            intervalRef.current = window.setInterval(() => {
+        if (torrentClientApi.torrents.some(torrent => torrent.status !== 0)) {
+            intervalRef.current.forEach(el => window.clearInterval(el));
+            intervalRef.current.add(window.setInterval(() => {
                 dispatch(getActiveTorrents(getActiveTorrentsRoute));
-            }, 5000);
-        }
-    }, [dispatch, intervalRef, torrentClientApi.torrents])
+            }, 5000));
+        } else intervalRef.current.forEach(el => window.clearInterval(el));
+    }, [dispatch, intervalRef, torrentClientApi.torrents]);
 
     return (
         <Container maxWidth={'xl'}>
             <AddTorrent {...backendConfig} />
             <MenuContainer
                 handleChecked={onAllSelectedChanged}
-                selected={selected}
+                selected={Object.values(selected)}
                 handleAdd={onIconClicked}
                 handlePause={onIconClicked}
                 handleStop={onIconClicked}
@@ -108,7 +112,7 @@ export const TorrentClientPage = () => {
             <FadeDiv shouldDisplay={true}>
                 {
                     torrentClientApi.torrents.length &&
-                    selected.length &&
+                    Object.entries(selected).length &&
                     <TorrentListContainer
                         selected={selected}
                         handleChange={onSelectedChanged}
